@@ -1,0 +1,58 @@
+<md-toolbar class="navigator md-primary md-hue-3 md-whiteframe-3dp " md-theme="dracular"  > <!--ng-style="{opacity:(_toolbarFeature != 1)?1:0,visibility:(_toolbarFeature != 1)?'visible':'hidden'}"-->
+    <div class="md-toolbar-tools  md-toolbar-tools-bottom">
+            <div flex layout="row">
+                <img ng-src="{{user_info.user_logo_url}}" class="navigator-img" ng-click="(tab.key != 'index') && go('index')"/>
+            </div>
+            <div class="navigator-panel">
+                <md-button class="" ng-class="{'active':(tab.key == 'document')}" ng-click="(tab.key != 'document') && go('document')">
+                    <%= __('Supplier.api')%>
+                </md-button>
+                <md-button class="" ng-class="{'active':(tab.key == 'info')}" ng-click="(tab.key != 'info') && go('info')" >
+                    <%= __('Supplier.info')%>
+                </md-button>
+                <md-button class="" ng-class="{'active':(tab.key == 'allComment')}" ng-click="(tab.key != 'all-comment') && go('all-comment')">
+                    <%= __('Supplier.allcomment')%>
+                </md-button>
+            </div>
+            <div class="navigator-profile" layout="row" layout-align="end" flex>
+                <div class="navigator-menu">
+                    <md-button  class="fadding fade0" ng-show="!profile" ng-click="showLogin($event)">
+                        <md-icon class="pr-5" md-svg-icon="action:ic_perm_identity_24px"></md-icon>
+                        <%= __('Supplier.nav.notlogin')%>
+                    </md-button>
+                    <md-menu md-position-mode="target-right target" class=""  ng-hide="!profile" md-offset="{{'-199 93'}}" >
+                        <md-button ng-click="$mdOpenMenu($event)" ng-class="{'has-badge':systemHints.length}" ng-hide="!profile"  aria-label="<%= __('Supplier.nav.arianame')%>" >
+                            <md-icon class="pr-5" md-svg-icon="action:ic_account_circle_24px"></md-icon>
+                            <span ng-bind='profile.login_user_name + (profile.login_sub_user_name?(":"+profile.login_sub_user_name):"")'></span>
+                            <div class="badge" ng-show="systemHints.length" ng-bind="systemHints.length"></div>
+                        </md-button>
+                        <md-menu-content width="4" md-theme="dracular" class="md-primary md-hue-3" style="color: white">
+                            <md-menu-item>
+                                <md-button ng-click="toConsole()">
+                                    <md-icon md-svg-icon="action:ic_build_24px" md-menu-align-target style="color: white;width: 20px;height:20px"></md-icon>
+                                    <%= __('Supplier.nav.console')%>
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item ng-if="!isAdmin()">
+                                <md-button ng-click="toPlatform('/sso/update')" >
+                                    <md-icon md-svg-icon="action:ic_account_box_24px" md-menu-align-target style="color: white;width: 20px;height:20px"></md-icon>
+                                    <%= __('Supplier.nav.profile')%>
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="logout()">
+                                    <md-icon md-svg-icon="content:ic_undo_24px" md-menu-align-target style="color: white;width: 20px;height:20px"></md-icon>
+                                    <%= __('Supplier.nav.quit')%>
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </div>
+                <div class="site-brand">
+                    <md-button class=" " aria-label="<%= __('Supplier.nav.return')%>" ng-click="toPlatform('welcome')">
+                        <md-icon md-svg-icon="/resource/logo_3.svg"></md-icon>
+                    </md-button>
+                </div>
+            </div>
+        </div>
+</md-toolbar>

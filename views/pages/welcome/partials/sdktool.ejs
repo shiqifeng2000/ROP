@@ -1,0 +1,208 @@
+<div class="sdk-list" flex-offset-gt-lg="20" flex-gt-lg="60" flex-offset-lg="15" flex-lg="70" flex-offset="10"
+     flex="80">
+  <div class="heado">
+    <h2 class="md-title"><%= __('Welcome.sdktool.title') %></h2>
+    <p class="md-subhead"><%= __('Welcome.sdktool.subtitle') %></p>
+  </div>
+  <h4 class="md-body-2 sepo"><%= __('Welcome.sdktool.pc') %></h4>
+  <md-grid-list md-cols="8" md-row-height="2:2" md-gutter="24px">
+    <md-grid-tile md-rowspan="2" md-colspan="2" ng-if="sdk['.net']">
+      <div class="overlay-container">
+        <div class="portrait">
+          <img src="resource/dotnet-icon.jpg"/>
+        </div>
+        <table class="md-datatable">
+          <tbody>
+          <tr>
+            <th><%= __('Welcome.sdktool.name') %></th>
+            <td>{{sdk['.net'].name}}</td>
+          </tr>
+          <tr>
+            <th><%= __('Welcome.sdktool.size') %></th>
+            <td>{{sdk['.net'].size}}</td>
+          </tr>
+          <tr>
+            <th><%= __('Welcome.sdktool.updatetime') %></th>
+            <td>{{sdk['.net'].time}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="overlay-link">
+          <p class="floating-text md-body-2">{{sdk['.net'].sdk_desc}}</p>
+          <md-button class="md-raised md-primary floating-fab md-row-button" aria-label="Settings"
+                     ng-click="locate(sdk['.net'].path)">
+            <%= __('Welcome.sdktool.download') %>
+          </md-button>
+        </div>
+      </div>
+    </md-grid-tile>
+    <md-grid-tile md-rowspan="2" md-colspan="2" ng-if="sdk['java']">
+      <div class="overlay-container">
+        <div class="portrait">
+          <img src="resource/java-icon.jpg"/>
+        </div>
+        <table class="md-datatable">
+          <tbody>
+          <tr>
+            <th><%= __('Welcome.sdktool.name') %></th>
+            <td>{{sdk['java'].name}}</td>
+          </tr>
+          <tr>
+            <th><%= __('Welcome.sdktool.size') %></th>
+            <td>{{sdk['java'].size}}</td>
+          </tr>
+          <tr>
+            <th><%= __('Welcome.sdktool.updatetime') %></th>
+            <td>{{sdk['java'].time}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="overlay-link">
+          <p class="floating-text md-body-2">{{sdk['java'].sdk_desc}}</p>
+          <md-button class="md-raised md-primary floating-fab md-row-button" aria-label="Settings"
+                     ng-click="locate(sdk['java'].path)">
+            <%= __('Welcome.sdktool.download') %>
+          </md-button>
+        </div>
+      </div>
+    </md-grid-tile>
+    <md-grid-tile md-rowspan="2" md-colspan="2" ng-if="sdk['php']">
+      <div class="overlay-container">
+        <div class="portrait">
+          <img src="resource/php-icon.jpg"/>
+        </div>
+        <table class="md-datatable">
+          <tbody>
+          <tr>
+            <th><%= __('Welcome.sdktool.name') %></th>
+            <td>{{sdk['php'].name}}</td>
+          </tr>
+          <tr>
+            <th><%= __('Welcome.sdktool.size') %></th>
+            <td>{{sdk['php'].size}}</td>
+          </tr>
+          <tr>
+            <th><%= __('Welcome.sdktool.updatetime') %></th>
+            <td>{{sdk['php'].time}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="overlay-link">
+          <p class="floating-text md-body-2">{{sdk['php'].sdk_desc}}</p>
+          <md-button class="md-raised md-primary floating-fab md-row-button" aria-label="Settings"
+                     ng-click="locate(sdk['php'].path)">
+            <%= __('Welcome.sdktool.download') %>
+          </md-button>
+        </div>
+      </div>
+    </md-grid-tile>
+    <md-grid-tile md-rowspan="2" md-colspan="2" ng-if="sdk['python']">
+      <div class="overlay-container">
+        <div class="portrait">
+          <img src="resource/python-icon.jpg"/>
+        </div>
+        <table class="md-datatable">
+          <tbody>
+          <tr>
+            <th><%= __('Welcome.sdktool.name') %></th>
+            <td>{{sdk['python'].name}}</td>
+          </tr>
+          <tr>
+            <th><%= __('Welcome.sdktool.size') %></th>
+            <td>{{sdk['python'].size}}</td>
+          </tr>
+          <tr>
+            <th><%= __('Welcome.sdktool.updatetime') %></th>
+            <td>{{sdk['python'].time}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="overlay-link">
+          <p class="floating-text md-body-2">{{sdk['python'].sdk_desc}}</p>
+          <md-button class="md-raised md-primary floating-fab md-row-button" aria-label="Settings"
+                     ng-click="locate(sdk['python'].path)">
+            <%= __('Welcome.sdktool.download') %>
+          </md-button>
+        </div>
+      </div>
+    </md-grid-tile>
+  </md-grid-list>
+  <h4 class="md-body-2 sepo"><%= __('Welcome.sdktool.mobile') %></h4>
+        <md-grid-list md-cols="8" md-row-height="2:2" md-gutter="24px">
+          <md-grid-tile md-rowspan="2" md-colspan="2" ng-if="sdk['js']">
+            <div class="overlay-container">
+              <div class="portrait">
+                <img src="resource/js-icon.jpg"/>
+              </div>
+              <table class="md-datatable">
+                <tbody>
+                <tr>
+                  <th><%= __('Welcome.sdktool.name') %></th>
+                  <td>{{sdk['js'].name}}</td>
+                </tr>
+                <tr>
+                  <th><%= __('Welcome.sdktool.size') %></th>
+                  <td>{{sdk['js'].size}}</td>
+                </tr>
+                <tr>
+                  <th><%= __('Welcome.sdktool.updatetime') %></th>
+                  <td>{{sdk['js'].time}}</td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="overlay-link">
+                <p class="floating-text md-body-2">{{sdk['js'].sdk_desc}}</p>
+                <md-button class="md-raised md-primary floating-fab md-row-button" aria-label="Settings"
+                           ng-click="locate(sdk['js'].path)">
+                  <%= __('Welcome.sdktool.download') %>
+                </md-button>
+              </div>
+            </div>
+          </md-grid-tile>
+          <md-grid-tile md-rowspan="2" md-colspan="2" ng-if="sdk['android']">
+            <div class="overlay-container">
+              <div class="portrait">
+                <img src="resource/android-icon.jpg"/>
+              </div>
+              <table class="md-datatable">
+                <tbody>
+                <tr>
+                  <th><%= __('Welcome.sdktool.name') %></th>
+                  <td>{{sdk['android'].name}}</td>
+                </tr>
+                <tr>
+                  <th><%= __('Welcome.sdktool.size') %></th>
+                  <td>{{sdk['android'].size}}</td>
+                </tr>
+                <tr>
+                  <th><%= __('Welcome.sdktool.updatetime') %></th>
+                  <td>{{sdk['android'].time}}</td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="overlay-link">
+                <p class="floating-text md-body-2">{{sdk['android'].sdk_desc}}</p>
+                <md-button class="md-raised md-primary floating-fab md-row-button" aria-label="Settings"
+                           ng-click="locate(sdk['android'].path)">
+                  <%= __('Welcome.sdktool.download') %>
+                </md-button>
+              </div>
+            </div>
+          </md-grid-tile>
+        </md-grid-list>
+</div>
+<% include ./footer.ejs %>
+<script>
+  var type = 'anonymous';
+  try {
+    type = JSON.parse(getCookie("_session")).login_user_type
+  } catch (e) {
+
+  }
+  bassdk.quick('setDefaultAttr');
+  bassdk.track('visit', {
+    pageName: 'SDK下载页',
+    userType: type,
+    pageType: "前端页面"
+  });
+</script>

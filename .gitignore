@@ -1,0 +1,22 @@
+# Specifies intentionally untracked files to ignore when using Git
+
+npm-debug.log*
+
+.idea/
+.git/
+node_modules/
+logs/
+$RECYCLE.BIN/
+
+.DS_Store
+Thumbs.db
+/src/client/angular/backup/
+/src/client/angular/directive/calendar_backup.es6
+/logs/server.log
+/key.json
+build/
+public/mobile/
+public/vendor/
+/temp/
+/yarn.lock
+/yarn-error.log

@@ -1,0 +1,16 @@
+{
+  "EACCES": {"zh-cn":"权限失败,请重试","zh-en":"Permission failed,Please try again."},
+  "EADDRINUSE": {"zh-cn":"权限失败,请重试","zh-en":"Permission failed,Please try again."},
+  "ECONNREFUSED": {"zh-cn":"网络请求失败，请重试","zh-en":"The connection attempt failed,please try again."},
+  "ECONNRESET": {"zh-cn":"网络请求失败，请重试","zh-en":"The connection attempt failed,please try again."},
+  "EEXIST": {"zh-cn":"权限失败,请重试","zh-en":"Permission failed,Please try again."},
+  "EISDIR": {"zh-cn":"权限失败,请重试","zh-en":"Permission failed,Please try again."},
+  "EMFILE": {"zh-cn":"权限失败,请重试","zh-en":"Permission failed,Please try again."},
+  "ENOENT": {"zh-cn":"权限失败,请重试","zh-en":"Permission failed,Please try again."},
+  "ENOTDIR": {"zh-cn":"权限失败,请重试","zh-en":"Permission failed,Please try again."},
+  "ENOTEMPTY": {"zh-cn":"权限失败,请重试","zh-en":"Permission failed,Please try again."},
+  "EPERM": {"zh-cn":"权限失败,请重试","zh-en":"Permission failed,Please try again."},
+  "EPIPE": {"zh-cn":"网络请求失败，请重试","zh-en":"The connection attempt failed,please try again."},
+  "ETIMEDOUT": {"zh-cn":"网络请求失败，请重试","zh-en":"The connection attempt failed,please try again."},
+  "ECOMMON":{"zh-cn":"操作失败，请重试","zh-en":"The operation failed. Please try again."}
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="SupplierApp">
+<head>
+    <!--公共部分页头开始-->
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-stand">
+    <meta name="session" content="<%= locals._session_id %>">
+    <meta name="module" content="supplier">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="baidu-site-verification" content="Xi7qoGivNm" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="robots" content="supplier">
+    <meta name="description" content="融数开放平台（RongCapital Open Platform 简称ROP）是以开放数据为基础服务，连接供应商（SSV）与开发者（ISV）的第三方API开放分发平台。此平台为开发者提供全面便捷的API服务，为企业、供应商提供一体化的数据开放服务，将推动各行各业定制、创新、进化，并最终促成新商业文明生态圈的建立。">
+    <meta name="keywords" content="ROP">
+
+    <base href="/">
+    <title ng-bind="ssv_intro.user_name"></title>
+    <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/angular-material/angular-material.min.css" rel="stylesheet">
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/vendor/font-awesome-animation/dist/font-awesome-animation.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/js/plugin/collapse/css/string2xml.css" />
+    <link  rel="stylesheet" href="/js/plugin/collapse/css/string2json.css"media="screen" />
+    <link rel="stylesheet" href="/js/plugin/collapse/css/jquery.treeview.css" media="screen" />
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!--自定义css样式-->
+    <link href="/css/m_supplier-preview.css?t=<%= process.env.token%>" rel="stylesheet">
+    <!--公共部分页头结束-->
+    <script type="text/javascript">
+      <%if (settings.env === 'production') { %>
+      (function(j){var h=j.sdkUrl,a=j.name,d=this,g=d.document,f=null,e=null;d.RXSTREAM201607=a;d[a]=d[a]||function(i){return function(){(d[a]._rx=d[a]._rx||[]).push([i,arguments])}};var b=["track","trackSignup","userIdentify"];for(var c=0;c<b.length;c++){d[a][b[c]]=d[a].call(null,b[c])}if(!d[a].lt){f=g.createElement("script"),e=g.getElementsByTagName("script")[0];f.async=true;f.src=h;e.parentNode.insertBefore(f,e);d[a].lt=1*new Date();d[a].para=j}})({sdkUrl:"/js/plugin/rxStream.js",sendLimit:1,showLog:false,name:"rxStream",autoTrack:true,apiHost:location.protocol+"//sc.ruixuesoft.com",appId:343});
+      <% } else {%>
+      (function(j){var h=j.sdkUrl,a=j.name,d=this,g=d.document,f=null,e=null;d.RXSTREAM201607=a;d[a]=d[a]||function(i){return function(){(d[a]._rx=d[a]._rx||[]).push([i,arguments])}};var b=["track","trackSignup","userIdentify"];for(var c=0;c<b.length;c++){d[a][b[c]]=d[a].call(null,b[c])}if(!d[a].lt){f=g.createElement("script"),e=g.getElementsByTagName("script")[0];f.async=true;f.src=h;e.parentNode.insertBefore(f,e);d[a].lt=1*new Date();d[a].para=j}})({sdkUrl:"/js/plugin/rxStream.js",sendLimit:1,showLog:false,name:"rxStream",autoTrack:true,apiHost:location.protocol+"//sc.ruixuesoft.com",appId:342});
+      <% } %>
+    </script>
+</head>
+
+<body ng-controller="SupplierCtrl" ng-init="init()">
+<% include ../loading.ejs %>
+  <!--TODO api 页面是上下结构，第一行是面包屑行，也就是breadcrumb-->
+  <md-toolbar class="md-primary md-hue-3 md-whiteframe-3dp breadcrumb-row" md-theme="dracular">
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings">
+          <md-icon md-svg-icon="navigation:ic_chevron_left_24px"></md-icon>
+        </md-button>
+      </div>
+  </md-toolbar>
+  <!--TODO section 里面包含了左边栏和右边的详情部分，左边栏默认满屏会在用户选择分类后会被折起到左边-->
+  <section layout="row">
+      <md-content class="fadding">
+        <div class="content-wrapper" ng-show="apiDetails.api_id">
+          <% include ./partials/api.ejs %>
+        </div>
+        <div class="content-wrapper" ng-show="domainDetails.domain_id">
+          <% include ./partials/domain.ejs %>
+        </div>
+      </md-content>
+  </section>
+</body>
+<script type="text/javascript">
+  eval('<%-locals._injection%>');
+  eval('<%-locals._info%>');
+</script>
+<script src="/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://ruixuesoftpicture.oss-cn-beijing.aliyuncs.com/398a1726ce714ad4b56dd5c80751aff1/angular.min.js"></script>
+<script type="text/javascript" src="http://ruixuesoftpicture.oss-cn-beijing.aliyuncs.com/398a1726ce714ad4b56dd5c80751aff1/angular-material.min.js"></script>
+<script type="text/javascript" src="/vendor/angular-cookies/angular-cookies.min.js"></script>
+<script type="text/javascript" src="/vendor/angular-animate/angular-animate.min.js"></script>
+<script type="text/javascript" src="/vendor/angular-route/angular-route.min.js"></script>
+<script type="text/javascript" src="/vendor/angular-aria/angular-aria.min.js"></script>
+<script type="text/javascript" src="/vendor/angular-messages/angular-messages.min.js"></script>
+<script type="text/javascript" src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="/vendor/clipboard/dist/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/js/plugin/collapse/js/jquery.treeview.js"></script>
+<script type="text/javascript" src="/js/plugin/collapse/js/packageTree.js"></script>
+<script type='text/javascript' src='/js/plugin/collapse/js/string2json.js'></script>
+
+<script type="text/javascript" src="/js/angular/supplier/delegate/supplier-preview.js"></script>
+
+<script type="text/javascript" src="/vendor/requirejs/require.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+</html>

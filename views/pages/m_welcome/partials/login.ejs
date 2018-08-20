@@ -1,0 +1,42 @@
+<md-content class="md-primary" md-theme="dracular">
+  <!--<div class="logo">
+    <img class="icon" src="/resource/logo_3.svg" ng-click="go('index')"/>
+  </div>-->
+  <form autocomplete="off" name="loginForm" novalidate>
+    <!--<div ng-messages="loginForm.$invalid" class="error">
+      <div ng-message="required"><%= __('SSO.index.username.required') %></div>
+      <div ng-message="required"><%= __('SSO.index.password.required') %></div>
+      <div ng-message="minlength"><%= __('SSO.index.password.pattern') %></div>
+    </div>-->
+    <!--<div class="">
+      <div ng-messages="loginForm.user_account.$error">
+        <div ng-message="required"><%= __('SSO.index.username.required') %></div>
+      </div>
+    </div>-->
+    <div class="input-container">
+      <input ng-model="user_account" name="user_account" type="text" placeholder="<%= __('SSO.index.username') %>"
+             ng-required="true" autocomplete="off">
+      <input id="inputPassword" ng-model="password" name="password" type="password"
+             placeholder="<%= __('SSO.index.password') %>" ng-required="true" minlength="6" autocomplete="off">
+    </div>
+    <div class="message-container">
+      <div ng-messages="loginForm.user_account.$error" class="messages" ng-show="loginForm.user_account.$dirty">
+        <div ng-message="required" class="message"><%= __('SSO.index.username.required') %></div>
+      </div>
+      <div ng-messages="loginForm.password.$error" class="messages" ng-show="loginForm.password.$dirty">
+        <div ng-message="required" class="message"><%= __('SSO.index.password.required') %></div>
+        <div ng-message="minlength" class="message"><%= __('SSO.index.password.pattern') %></div>
+      </div>
+    </div>
+    <div class="button-row" ng-class="{'logging':refreshing}">
+      <md-button class="md-raised md-primary md-raised submit" aria-label="data control" ng-click="login()" md-theme="default" type="submit" ng-disabled="loginForm.$invalid">
+        <%= __('SSO.index.submit') %>
+      </md-button>
+      <!--<div class="assist">
+        <span class="rule"><a href="javascript:" class="pl-5 md-primary" ng-click="go('findpassword')"><%= __('SSO.index.forgetpassword') %></a></span>
+        <span class="pl-30 pr-30">|</span>
+        <span class="rule"><a href="javascript:" class="pl-5 md-primary" ng-click="goRegister()"><%= __('SSO.index.notregister') %></a></span>
+      </div>-->
+    </div>
+  </form>
+</md-content>

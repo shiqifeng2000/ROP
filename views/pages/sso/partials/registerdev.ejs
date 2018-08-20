@@ -1,0 +1,154 @@
+<!--TODO md-input-container 的message 必须有 ng-show 否则只能校验一次-->
+<div layout="column" layout-fill layout-align="center" class="fadding">
+    <div layout="row" layout-align="center">
+        <div class="user-type-panel md-whiteframe-9dp" id="devRegisterPanel">
+            <md-toolbar class="md-primary" layout="column" layout-align="center" md-theme="dracular">
+                <div class="md-toolbar-tools " >
+                    <div flex>
+                        <img src="/resource/logo_2.svg" ng-click="toPlatform()"/>
+                    </div>
+
+                    <div>
+                        <h1 class="md-title">
+                            <span><%= __('SSO.register.developer.title') %></span>
+                        </h1>
+                    </div>
+                </div>
+            </md-toolbar>
+            <div class="description md-collapsing" ng-show="dev_msg">
+                <span class="md-body-1" >{{dev_msg}}</span>
+                <md-button class="md-icon-button md-primary md-hue-1" ng-if="developer._success" aria-label="data control" ng-click="go('index')">
+                    <md-icon md-svg-icon="navigation:ic_check_24px"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-primary md-hue-1" aria-label="data control" ng-click="clearMsg(1)">
+                    <md-icon md-svg-icon="content:ic_clear_24px"></md-icon>
+                </md-button>
+            </div>
+            <md-content class="md-no-momentum padding-more">
+
+                <form autocomplete="off" name="devForm" novalidate>
+                    <div layout="row">
+                        <md-input-container class="md-block" flex>
+                            <input ng-model="developer.user_account" name="user_account" type="text"
+                                   placeholder="<%= __('SSO.register.developer.useraccount') %>" ng-required="true" autocomplete="off">
+
+                            <div ng-messages="devForm.user_account.$error" ng-show="devForm.user_account.$dirty">
+                                <div ng-message="required"><%= __('SSO.register.developer.useraccount.required') %></div>
+                            </div>
+                        </md-input-container>
+                        <div flex="10"></div>
+                        <md-input-container class="md-block" flex>
+                            <!--<md-icon md-svg-icon="action:ic_face_24px"></md-icon>-->
+                            <input ng-model="developer.user_name" name="user_name" type="text"
+                                   placeholder="<%= __('SSO.register.developer.username') %>" ng-required="true" autocomplete="off">
+
+                            <div ng-messages="devForm.user_name.$error" ng-show="devForm.user_name.$dirty"
+                                 class="fadding">
+                                <div ng-message="required"><%= __('SSO.register.developer.username.required') %></div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container class="md-block" flex>
+                            <!--<md-icon md-svg-icon="communication:ic_vpn_key_24px"></md-icon>-->
+                            <input id="inputPassword" ng-model="developer.password" name="password" class="password"
+                                   type="password" placeholder="<%= __('SSO.register.developer.password') %>" ng-required="true" minlength="6"
+                                   autocomplete="off" pattern="(?=.*\d)(?=.*[a-zA-Z]).{6,}">
+
+                            <div ng-messages="devForm.password.$error" ng-show="devForm.password.$dirty"
+                                 class="fadding">
+                                <div ng-message="required"><%= __('SSO.register.developer.password.required') %></div>
+                                <div ng-message="pattern"><%= __('SSO.register.developer.password.pattern') %></div>
+                            </div>
+                        </md-input-container>
+                        <div flex="10"></div>
+                        <md-input-container class="md-block" flex>
+                            <!--<md-icon md-svg-icon="action:ic_done_all_24px"></md-icon>-->
+                            <input id="confirm_password" ng-model="developer.confirm_password" name="confirm_password"
+                                   class="password" type="password" placeholder="<%= __('SSO.register.developer.confirmpassword') %>"
+                                   ng-required="true" minlength="6" autocomplete="off"
+                                   pattern="(?=.*\d)(?=.*[a-zA-Z]).{6,}" compare-to="developer.password">
+
+                            <div ng-messages="devForm.confirm_password.$error" ng-show="devForm.confirm_password.$dirty"
+                                 class="fadding">
+                                <div ng-message="required"><%= __('SSO.register.developer.confirmpassword.required') %></div>
+                                <div ng-message="pattern"><%= __('SSO.register.developer.confirmpassword.pattern') %></div>
+                                <div ng-message="compareTo"><%= __('SSO.register.developer.confirmpassword.compare') %></div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container class="md-block" flex>
+                            <!--<md-icon md-svg-icon="communication:ic_email_24px"></md-icon>-->
+                            <input ng-model="developer.email" name="email" type="email" placeholder="<%= __('SSO.register.developer.email') %>"
+                                   ng-required="true" autocomplete="off">
+
+                            <div ng-messages="devForm.email.$error" ng-show="devForm.email.$dirty" class="fadding">
+                                <div ng-message="required"><%= __('SSO.register.developer.email.required') %></div>
+                                <div ng-message="email"><%= __('SSO.register.developer.email.pattern') %></div>
+                            </div>
+                        </md-input-container>
+                        <div flex="10"></div>
+                        <md-input-container class="md-block" flex>
+                            <!--<md-icon md-svg-icon="hardware:ic_smartphone_24px"></md-icon>-->
+                            <input ng-model="developer.mobile" name="mobile" type="text"
+                                   placeholder="<%= __('SSO.register.developer.mobile') %>" ng-required="true" autocomplete="off"
+                                   pattern="1\d{10}">
+
+                            <div ng-messages="devForm.mobile.$error" ng-show="devForm.mobile.$dirty" class="fadding">
+                                <div ng-message="required"><%= __('SSO.register.developer.mobile.required') %><</div>
+                                <div ng-message="pattern"><%= __('SSO.register.developer.mobile.pattern') %></div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container class="md-block" flex>
+                            <!--<md-icon md-svg-icon="/resource/qq.svg"></md-icon>-->
+                            <input ng-model="developer.qq" name="qq" type="text" placeholder="<%= __('SSO.register.developer.qq') %>"
+                                   ng-required="true" autocomplete="off" pattern="[1-9][0-9]{4,}">
+
+                            <div ng-messages="devForm.qq.$error" ng-show="devForm.qq.$dirty" class="fadding">
+                                <div ng-message="required"><%= __('SSO.register.developer.qq.required') %></div>
+                                <div ng-message="pattern"><%= __('SSO.register.developer.qq.pattern') %></div>
+                            </div>
+                        </md-input-container>
+                        <div flex="10"></div>
+                        <md-input-container class="md-block" flex>
+                            <!--<md-icon md-svg-icon="action:ic_work_24px"></md-icon>-->
+                            <input ng-model="developer.company" name="company" type="text"
+                                   placeholder="<%= __('SSO.register.developer.company') %>" ng-required="true" autocomplete="off">
+
+                            <div ng-messages="devForm.company.$error" ng-show="devForm.company.$dirty" class="fadding">
+                                <div ng-message="required"><%= __('SSO.register.developer.company.required') %></div>
+                            </div>
+                        </md-input-container>
+                    </div>
+
+
+                    <div layout="row">
+                        <md-input-container class="md-block" flex>
+                            <input ng-model="developer.department" name="department" type="text"
+                                   placeholder="<%= __('SSO.register.developer.department') %>" autocomplete="off">
+                        </md-input-container>
+                        <div flex="10"></div>
+                        <md-input-container class="md-block" flex>
+                            <input ng-model="developer.tel" name="department" type="text"
+                                   placeholder="<%= __('SSO.register.developer.telephone') %>" autocomplete="off">
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container class="md-block" flex>
+                            <input ng-model="developer.invite_code" name="department" type="text" placeholder="<%= __('SSO.register.developer.invitationcode') %>" autocomplete="off">
+                            <div class="hint" aria-hidden="false" >注册账号时填写供应商邀请码，系统管理将自动审核该帐号</div>
+                        </md-input-container>
+                        <div flex="10"></div>
+                        <div flex layout="row" layout-align="start" class="inline-row">
+                            <md-button class="md-raised md-primary md-radius-button-2 trim" aria-label="data control" ng-click="register($event)" type="submit"><%= __('SSO.register.submit') %></md-button>
+                        </div>
+                    </div>
+
+                </form>
+            </md-content>
+        </div>
+    </div>
+</div>

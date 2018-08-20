@@ -1,0 +1,40 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}" aria-label="data control" ng-click="reset()">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+      <md-menu class="md-dropdown cool" md-offset="1 50">
+        <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular" aria-label="data control" ng-disabled="refreshing || loading">
+          <span ng-bind="currentPipe.channel_name || '短信全部通道'"></span>
+          <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+        </md-button>
+        <md-menu-content class="md-dropdown-content cool" md-theme="dracular">
+          <md-menu-item ng-repeat="pipe in pipeList track by $index">
+            <md-button ng-click="selectPipe(pipe)">{{pipe.channel_name}}</md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
+    <span flex></span>
+  </div>
+  <div class="body">
+    <rop-datatable cols="columns" data="prodList" searcher="searcher" index="pageIndex" size="pageSize" total="total" noselection="true" />
+    <div class="app-loading" ng-if="refreshing || loading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>

@@ -1,0 +1,60 @@
+<md-dialog aria-label="素材管理" class="form matter" aria-describedby="quick edit">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-icon md-svg-icon="navigation:ic_apps_24px"></md-icon>
+      <h3><span ng-bind="'素材管理'"></span></h3>
+      <md-button class="md-icon-button md-primary md-hue-1" aria-label="Settings" ng-click="close()">
+        <md-icon md-svg-icon="content:ic_clear_24px"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div class="group">
+      <a class="item">全部图片（20）</a>
+      <a class="item">未分组（10）</a>
+      <a class="item">蜂巢数据icon（15）</a>
+    </div>
+    <div class="area">
+      <div class="topArea">
+        <span>图片总共大小不超于50M 单张图片不超过2M 图片数量不超过24张</span>
+        <button class="text md-button fill" type="button"><span>本地上传</span></button>
+      </div>
+      <div class="content drop-box" ngf-drop ng-model="files" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true" accept="image/jpeg,image/jpg,image/png" ngf-pattern="'image/jpeg,image/jpg,image/png'">
+        <div class="item">
+          <div class="m_thumbnail"></div>
+          <p class="title">product1.png</p>
+        </div>
+        <div class="item">
+          <div class="m_thumbnail"></div>
+          <p class="title">product2.png</p>
+        </div>
+        <div class="item">
+          <div class="m_thumbnail"></div>
+          <p class="title">product3.png</p>
+        </div>
+        <div class="item">
+          <div class="m_thumbnail"></div>
+          <p class="title">product3.png</p>
+        </div>
+        <div class="item">
+          <div class="m_thumbnail"></div>
+          <p class="title">product3.png</p>
+        </div>
+        <div class="item">
+          <div class="m_thumbnail"></div>
+          <p class="title">product3.png</p>
+        </div>
+      </div>
+      <nav rop-pagination class="md-pagination" searcher="searcher" index="index" size="size" total="total" infinite="infinite">
+    </div>
+    <div class="app-loading" ng-if="refreshing">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <div class="message" ng-if="error">
+      <span ng-bind="error"></span>
+    </div>
+    <md-button ng-click="save()" type="submit">保存</md-button>
+  </md-dialog-actions>
+</md-dialog>

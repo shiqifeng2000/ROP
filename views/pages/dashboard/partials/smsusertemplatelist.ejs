@@ -1,0 +1,70 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}" aria-label="data control" ng-click="reset()">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+      <md-button class="md-raised md-primary menu-button" aria-label="data control" ng-click="creatTemp($event)" ng-disabled="loading || refreshing" ng-if="::columns && validateBtnRole('btnInsert')">
+        <md-icon class="" md-svg-icon="content:ic_add_circle_outline_24px"></md-icon>
+        <span ng-bind="'添加模板'"></span>
+      </md-button>
+      <md-menu class="md-dropdown dark" md-offset="1 50" >
+        <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-3" md-theme="dracular" aria-label="data control" ng-disabled="loading || refreshing || !tempList._select">
+          <span>操作</span>
+          <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+        </md-button>
+        <md-menu-content class="md-dropdown-content dark md-primary md-hue-3" md-theme="dracular">
+          <md-menu-item ng-if="::columns && validateBtnRole('btnUpdate')" ng-hide="tempList._select.template_status === '已审核'"><md-button ng-click="editTemp($event)">修改模板</md-button></md-menu-item>
+          <md-menu-item ng-if="::columns && validateBtnRole('btnDelete')"><md-button ng-click="deleteTemp($event)">删除</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu class="md-dropdown cool" md-offset="1 50">
+        <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular" aria-label="data control" ng-disabled="refreshing || loading">
+          <span ng-bind="currentPipe.channel_name || '短信全部通道'"></span>
+          <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+        </md-button>
+        <md-menu-content class="md-dropdown-content cool" md-theme="dracular">
+          <md-menu-item ng-repeat="pipe in pipeList track by $index">
+            <md-button ng-click="selectPipe(pipe)">{{pipe.channel_name}}</md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu class="md-dropdown cool" md-offset="1 50">
+        <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular" aria-label="data control" ng-disabled="refreshing || loading">
+          <span ng-bind="currentSta.sta_name || '全部状态'"></span>
+          <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+        </md-button>
+        <md-menu-content class="md-dropdown-content cool" md-theme="dracular">
+          <md-menu-item ng-repeat="sta in staList track by $index">
+            <md-button ng-click="selectSta(sta)">{{sta.sta_name}}</md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
+    <span flex></span>
+    <div class="right">
+      <a href="http://open.rongcapital.cn/welcome/document/9ea34b74-7545-41fc-932f-24382816e5e8" target="_blank" class="readmore">
+        <span>短信模版使用说明</span>
+      </a>
+    </div>
+  </div>
+  <div class="body">
+    <rop-datatable cols="columns" data="tempList" searcher="searcher" index="pageIndex" size="pageSize" total="total"/>
+    <div class="app-loading" ng-if="refreshing || loading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>

@@ -1,0 +1,89 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+  </div>
+</md-toolbar>
+
+<md-content class="md-padding" ng-show="mode == 0">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':refreshing}" aria-label="data control" ng-click="reset($event)">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+
+      <md-button ng-click="appender()" class="md-raised md-primary menu-button" aria-label="data control" ng-disabled="::!validateBtnRole('btnInsert')">
+        <md-icon class="" md-svg-icon="content:ic_add_circle_outline_24px"></md-icon>
+        <span>添加文档</span>
+      </md-button>
+
+      <md-menu class="md-dropdown dark" md-offset="1 50" ng-if="!batch">
+        <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-3" md-theme="dracular" ng-disabled="!canOperate() || refreshing">
+          <span>操作</span>
+          <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+        </md-button>
+        <md-menu-content class="md-dropdown-content dark md-primary md-hue-3" md-theme="dracular" >
+          <md-menu-item ng-if="::validateBtnRole('btnUpdate')" ng-show="canOperate()"><md-button ng-click="appender($event,tableData._select)">修改</md-button></md-menu-item>
+          <md-menu-item ng-if="::validateBtnRole('btnDelete')" ng-show="canOperate()"><md-button ng-click="deleteDoc(tableData._select)">删除</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+      <form class="search-wrapper" ng-submit="research()">
+        <div class="search-group">
+          <button type="submit">
+            <md-icon class="md-primary" md-svg-icon="action:ic_search_24px" ng-click="research()"></md-icon>
+          </button>
+          <input type="text" class="searcher" ng-model="keyword" placeholder="请输入文档标题......"/>
+        </div>
+      </form>
+    </div>
+    <div flex></div>
+    <div class="right">
+      <a target="_blank" class="readmore" href="">
+        文档管理说明
+        <md-tooltip md-direction="down">您可以发布说明文档，以便于在API文档中引用这些文档的链接</md-tooltip>
+      </a>
+    </div>
+  </div>
+  <div class="body">
+    <rop-datatable cols="columns" data="tableData" searcher="searcher" index="pageIndex" size="pageSize" total="total" multiple="batch"/>
+    <div class="app-loading" ng-if="refreshing">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>
+<md-content class="md-padding" ng-if="mode == 1">
+  <form class="head" name="$parent.docForm" ng-submit="save()">
+    <div class="left">
+      <div class="search-wrapper extend">
+        <div class="search-group">
+          <button type="submit">
+            <md-icon class="md-primary" md-svg-icon="content:ic_flag_24px"></md-icon>
+          </button>
+          <input type="text" class="searcher" required ng-model="doc.doc_name" placeholder="请输入文档标题......" tabindex="1" maxlength="100" unicode-length-validator/>
+        </div>
+      </div>
+    </div>
+    <div flex></div>
+    <div class="right">
+      <md-button class="md-raised text line ml-10" aria-label="data control" ng-click="cancel()" tabindex="4">
+        <span>取消</span>
+      </md-button>
+      <md-button class="md-raised md-primary text fill" aria-label="data control" ng-click="save()" tabindex="5" ng-disabled="!$parent.doc.doc_content || !$parent.doc.doc_name">
+        <span>保存</span>
+      </md-button>
+    </div>
+  </form>
+  <div class="body" tabindex="2">
+    <rop-editor options="$parent.options" ng-model="$parent.doc.doc_content" ng-if="mode == 1"/>
+    <div class="app-loading" ng-if="refreshing">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>

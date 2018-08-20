@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+  <style>
+    .tri{
+      border-bottom: 173.2px solid red;
+      border-left: 100px solid white;
+      border-right: 100px solid white;
+      width: 0px;
+      height: 0px;
+    }
+  </style>
+  <script>
+    window.test = function(e){
+      e.stopPropagation();
+      console.log(e.currentTarget)
+    }
+  </script>
+</head>
+<body style="width:100vw;height:100vh" onclick="test(event)">
+  <div class="tri" onclick="test(event)">
+    <!--<div class="tri">
+      <div class="tri">
+        <div class="tri"></div>
+      </div>
+    </div>-->
+  </div>
+</body>
+</html>

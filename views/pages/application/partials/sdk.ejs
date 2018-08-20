@@ -1,0 +1,130 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class="">
+          <a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a>
+        </li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+  </div>
+</md-toolbar>
+
+<md-content class="md-padding">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}" aria-label="data control" ng-click="reset($event)">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+      <md-button class="md-raised md-primary menu-button" aria-label="data control" ng-click="create_sdkbeta()" ng-disabled="loading || refreshing">
+        <md-icon class="" md-svg-icon="content:ic_add_circle_outline_24px"></md-icon>
+        <span ng-bind="'生成测试版SDK'"></span>
+      </md-button>
+    </div>
+    <div flex></div>
+    <div class="right">
+      <a href="http://open.rongcapital.cn/welcome/document/dde6a2b1-e8a5-4390-89ef-af02ca0e5eeb" class="readmore" target="_blank">SDK说明</a>
+    </div>
+  </div>
+  <div class="body">
+    <div class="column" ng-show="sdkbeta.length">
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h6>测试版SDK</h6>
+          <span flex></span>
+        </div>
+      </md-toolbar>
+      <md-content>
+        <table class="md-datatable" ng-repeat="item in sdkbeta track by $index">
+          <tbody>
+            <tr>
+              <th><span>文件名称</span></th>
+              <td><span>{{item.name}}</span></td>
+            </tr>
+            <tr>
+              <th><span>文件大小</span></th>
+              <td><span>{{item.size}}</span></td>
+            </tr>
+            <tr>
+              <th><span>生成时间</span></th>
+              <td><span>{{item.time}}</span></td>
+            </tr>
+            <tr class="logo">
+              <th><img ng-src="{{item.type === '.net' ? '/resource/dotnet-icon.jpg': item.type === 'java' ? '/resource/java-icon.jpg' : item.type === 'php' ? '/resource/php-icon.jpg' : item.type === 'python' ? '/resource/python-icon.jpg' : item.sdk_img}}" alt="{{item.type}}"></th>
+              <td> <a class="md-raised text md-button md-ink-ripple fill" aria-label="data control" ng-href="{{item.path}}" target="_blank">下载</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </md-content>
+    </div>
+    <div class="column" ng-show="sdk.length">
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h6>正式版SDK</h6>
+          <span flex></span>
+        </div>
+      </md-toolbar>
+      <md-content>
+        <table class="md-datatable" ng-repeat="item in sdk track by $index">
+          <tbody>
+            <tr>
+              <th><span>文件名称</span></th>
+              <td><span>{{item.name}}</span></td>
+            </tr>
+            <tr>
+              <th><span>文件大小</span></th>
+              <td><span>{{item.size}}</span></td>
+            </tr>
+            <tr>
+              <th><span>生成时间</span></th>
+              <td><span>{{item.time}}</span></td>
+            </tr>
+            <tr class="logo">
+              <th><img ng-src="{{item.type === '.net' ? '/resource/dotnet-icon.jpg': item.type === 'java' ? '/resource/java-icon.jpg' : item.type === 'php' ? '/resource/php-icon.jpg' : item.type === 'python' ? '/resource/python-icon.jpg' : item.sdk_img}}" alt="{{item.type}}"></th>
+              <td> <a class="md-raised text md-button md-ink-ripple fill" aria-label="data control" ng-href="{{item.path}}" target="_blank">下载</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </md-content>
+    </div>
+    <div class="column" ng-show="native.length">
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h6>Android&JS SDK</h6>
+          <span flex></span>
+        </div>
+      </md-toolbar>
+      <md-content>
+        <table class="md-datatable" ng-repeat="item in native track by $index">
+          <tbody>
+            <tr>
+              <th><span>文件名称</span></th>
+              <td><span>{{item.name}}</span></td>
+            </tr>
+            <tr>
+              <th><span>文件大小</span></th>
+              <td><span>{{item.size}}</span></td>
+            </tr>
+            <tr>
+              <th><span>生成时间</span></th>
+              <td><span>{{item.time}}</span></td>
+            </tr>
+            <tr class="logo">
+              <th><img ng-src="{{item.type === 'js' ? '/resource/js-icon.jpg' : item.type === 'android' ? '/resource/android-icon.jpg' : item.sdk_img}}" alt="{{item.type}}"></th>
+              <td> <a class="md-raised text md-button md-ink-ripple fill" aria-label="data control" ng-href="{{item.path}}" target="_blank">下载</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </md-content>
+    </div>
+    <div class="app-loading" ng-if="loading || refreshing">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>

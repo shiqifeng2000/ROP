@@ -1,0 +1,34 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class="active"><a href="javascript:">消息管理</a></li>
+      </ol>
+      <p></p>
+    </div>
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}" aria-label="data control" ng-click="reset()">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+      <md-button class="md-raised menu-button has-badge" aria-label="data control" ng-disabled="loading || refreshing " ng-repeat="hint in rawSystemHints track by $index" ng-click="changeIndex($index)" ng-class="{'md-primary':(index == $index)}">
+        <span ng-bind="hint.name"></span>
+        <div class="badge" ng-bind="hint.pages.length" ng-if="hint.pages.length"></div>
+      </md-button>
+    </div>
+    <span flex></span>
+  </div>
+  <div class="body">
+    <rop-fixed-table cols="columns" data="tableData" noselection="noselection" />
+    <div class="app-loading" ng-if="refreshing || loading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <md-button class="md-fab rop-fab md-primary md-whiteframe-1dp" aria-label="fab" md-theme="dracular" ng-click="toPage()">
+      <md-icon md-svg-src="content:ic_send_24px"></md-icon>
+      <!--<span class="text">素材管理</span>-->
+    </md-button>
+  </div>
+</md-content>

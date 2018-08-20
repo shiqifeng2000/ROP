@@ -1,0 +1,74 @@
+<div class="transitionEndBubbleStop" ng-style="{'background':(!user_info || !user_info.user_image || !user_info.user_image.length) && 'url(/resource/supplier/banner1.jpg) no-repeat center/cover'}">
+  <div class="swiper-container" id="banner">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" ng-repeat="banner in user_info.user_image track by $index">
+        <div class="swiper-lazy-preloader"></div>
+        <div data-background="{{banner.image_url}}" class="swiper-lazy bg">
+          <div class="inner" ng-bind-html="banner.image_desc | unescapeHtml | trusthtml">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+<div class="api-overview">
+  <div class="api-developer">
+    <img src="/resource/supplier/apikfz.png" alt="">
+    <h1 class="title">{{user_info.isv_count}}</h1>
+    <p class="count"><%= __("Supplier.index.users")%></p>
+  </div>
+  <div class="api-count">
+    <img src="/resource/supplier/kfaipsl.png" alt="">
+    <h1 class="title">{{user_info.api_count}}</h1>
+    <p class="count"><%= __("Supplier.index.apinumbers")%></p>
+  </div>
+</div>
+<div class="api-info">
+  <!-- 一级分类 -->
+  <div ng-repeat="cat in catList track by $index">
+    <md-toolbar layout="row">
+      <div class="md-toolbar-tools">
+        <span>{{cat.cat_name}}</span>
+      </div>
+    </md-toolbar>
+    <md-list>
+      <!-- 二级分类 -->
+      <div ng-repeat="group in cat.group_list track by $index">
+        <md-subheader class="md-no-sticky" ng-if="group.group_id">{{group.group_name}}</md-subheader>
+        <md-list>
+          <!-- 子分类 -->
+          <md-list-item class="table-head">
+            <div class="api-level md-body-2">
+              <span><%= __('Supplier.api.rank') %></span>
+            </div>
+            <p flex class="md-body-2"><%= __('Supplier.api.apiname') %></p>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-list-item ng-repeat="api in group.api_list track by $index" ng-click="openApi(api)">
+            <div class="api-level">
+              <md-button aria-label="高级"
+                         ng-if="api.api_level == '0'" ng-class="{'senior': api.api_level == '0'}">
+                <%= __('Supplier.api.rank.high') %>
+              </md-button>
+              <md-button aria-label="中级" ng-if="api.api_level == '2'" ng-class="{medium: api.api_level == '2'}">
+                <%= __('Supplier.api.rank.middle') %>
+              </md-button>
+              <md-button aria-label="低级" ng-if="api.api_level == '1'" ng-class="{'primary': api.api_level == '1'}">
+                <%= __('Supplier.api.rank.low') %>
+              </md-button>
+            </div>
+            <div class="content" flex>
+              <p class="name">{{api.api_name}}</p>
+              <p class="title">{{api.api_title}}</p>
+            </div>
+            <md-divider></md-divider>
+          </md-list-item>
+        </md-list>
+      </div>
+    </md-list>
+  </div>
+
+</div>
+
+<!--<% include ./footer.ejs %>-->

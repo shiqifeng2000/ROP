@@ -1,0 +1,59 @@
+<!--
+
+<div class="sub-frame fadding-if" ui-view  >
+
+</div>
+-->
+<div class="details" ng-show="docId">
+  <md-content class="doc-list">
+    <!--<div class="md-expand material leftnav" ng-repeat="branch in currentTrunk.cat_list_level_2 track by $index" ng-class="{'active':branch._isOpen}">
+      <md-toolbar class="md-primary md-hue-1" ng-click="checkoutDoc(currentTrunk,branch,$event)">
+        <div class="md-toolbar-tools" >
+          <p ng-bind="branch.doc_name"></p>
+        </div>
+      </md-toolbar>-->
+    <md-list ng-cloak>
+      <md-subheader class="md-no-sticky" ng-click="go('document')"><md-icon md-svg-icon="navigation:ic_arrow_back_24px" aria-label="arrow" class="md-secondary arrow-right" ></md-icon><h3 class="title" ng-bind="currentTrunk.cat_name"></h3></md-subheader>
+      <md-divider></md-divider>
+      <md-list-item ng-repeat-start="branch in currentTrunk.cat_list_level_2 track by $index" class="title-list" ng-click="checkoutDoc(currentTrunk,branch)" aria-label="lister" ng-class="{'active':branch._isOpen}">
+        <h3 class="title" ng-bind="branch.doc_name"></h3>
+        <md-icon md-svg-icon="navigation:ic_chevron_right_24px" aria-label="arrow" class="md-secondary arrow-right" ></md-icon>
+      </md-list-item>
+      <md-divider ng-repeat-end></md-divider>
+      <!--<md-content class="details" ng-repeat-end compile content="content.content_desc" imageresizer="imageresizer"></md-content>-->
+    </md-list>
+    <div class="app-loading" ng-if="loading">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </md-content>
+</div>
+<md-sidenav class="md-sidenav-right" md-component-id="doc_detail" md-swipe-right="closeDetail()">
+  <md-content ui-view ng-show="currentTrunk || legacyDocument" ng-class="{'legacy':legacyDocument}" class="content">
+
+  </md-content>
+</md-sidenav>
+<div class="categories" ng-if="!docId">
+    <div class="banner">
+      <h3 class="title"><%= __('Welcome.doccat.title') %></h3>
+      <p class="text"><%= __('Welcome.doccat.subtitle') %></p>
+    </div>
+    <div class="body">
+        <div class="app-loading" ng-if="loading">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+        <div class="item-wrapper">
+            <div class="item" ng-repeat="root in rootTree track by $index" ng-if="$even" ng-click="toggleDetail(root,root.cat_list_level_2[0],$event)" ng-class="{'even':$last}">
+                <md-icon md-svg-icon="{{($index == 0)?'/resource/welcome/finance-34.svg':(($index == 1)?'/resource/welcome/city-03.svg':(($index == 2)?'/resource/welcome/text-07.svg':'/resource/welcome/others-18.svg'))}}"></md-icon>
+                <h3 class="title" ng-bind="root.cat_name"></h3>
+                <p class="text" ng-bind="($index == 0)?'开发者与供应商通过平台 实现数据交互':(($index == 1)?'开发者与供应商通过平台 实现数据交互':(($index == 2)?'开发者与供应商通过平台 实现数据交互':'开发者与供应商通过平台 实现数据交互'))"></p>
+            </div>
+        </div>
+        <div class="item-wrapper">
+          <div class="item" ng-repeat="root in rootTree track by $index" ng-if="$odd" ng-click="toggleDetail(root,root.cat_list_level_2[0],$event)" ng-class="{'even':$first}">
+            <md-icon md-svg-icon="{{($index == 0)?'/resource/welcome/finance-34.svg':(($index == 1)?'/resource/welcome/city-03.svg':(($index == 2)?'/resource/welcome/text-07.svg':'/resource/welcome/others-18.svg'))}}"></md-icon>
+            <h3 class="title" ng-bind="root.cat_name"></h3>
+            <p class="text" ng-bind="($index == 0)?'开发者与供应商通过平台 实现数据交互':(($index == 1)?'开发者与供应商通过平台 实现数据交互':(($index == 2)?'开发者与供应商通过平台 实现数据交互':'开发者与供应商通过平台 实现数据交互'))"></p>
+          </div>
+        </div>
+    </div>
+</div>

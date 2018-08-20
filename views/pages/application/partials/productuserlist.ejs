@@ -1,0 +1,112 @@
+<md-toolbar class="md-primary md-hue-1">
+    <div class="md-toolbar-tools md-toolbar-tools-bottom">
+        <div class="breadcrumb-wrapper">
+            <ol class="breadcrumb md-body-1">
+                <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+                <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+            </ol>
+            <p>{{nav_menu.subEntry.func_desc}}</p>
+        </div>
+        <span flex></span>
+
+    </div>
+</md-toolbar>
+
+<md-content class="md-padding">
+    <div class="head">
+        <div class="left">
+            <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}" aria-label="data control" ng-click="reset($event)">
+                <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+            </md-button>
+            <md-menu class="md-dropdown cool" md-offset="1 50" >
+                <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular" aria-label="data control" ng-disabled="refreshing || !userList">
+                    <span ng-bind="currentUser && currentUser.user_name || '全部用户'"></span>
+                    <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                </md-button>
+                <md-menu-content class="md-dropdown-content cool" >
+                    <md-menu-item ng-repeat="user in userList track by $index">
+                        <md-button ng-click="selectUser(user)">{{user.user_name}}</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <md-menu class="md-dropdown cool" md-offset="1 50" >
+                <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular" aria-label="data control" ng-disabled="refreshing || !prodList">
+                    <span ng-bind="currentProd && currentProd.product_name || '全部产品'"></span>
+                    <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                </md-button>
+                <md-menu-content class="md-dropdown-content cool" >
+                    <md-menu-item ng-repeat="prod in prodList track by $index">
+                        <md-button ng-click="selectProd(prod)">{{prod.product_name}}</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+        <span flex></span>
+    </div>
+    <div class="body">
+        <div class="datatable-wrapper">
+            <table cellspacing="0" class="md-datatable">
+                <thead>
+                <tr>
+                    <th>
+                        <span>开发者名称</span>
+                    </th>
+                    <th>
+                        <span>产品名称</span>
+                    </th>
+                    <th>
+                        <span>总金额（元）</span>
+                    </th>
+                    <th>
+                        <span>总调用次数</span>
+                    </th>
+                    <th>
+                        <span>已使用次数</span>
+                    </th>
+                    <th>
+                        <span>剩余次数</span>
+                    </th>
+                </tr>
+                </thead>
+<!--
+                "id": "339D849A-085B-48FF-A406-F525747CBE27",
+                "product_id": "1AFD220B-2080-46E9-94DA-CF92F5A0AB4C",
+                "product_name": "2",
+                "user_id": "4C506DCB-7382-4E79-8562-2857D2B58E04",
+                "user_name": "gaoliang1",
+                "price": "4",
+                "amount": "4",
+                "balance": "0",
+                "create_time": "2017-03-15 11:36:30"
+-->
+
+                <tbody>
+                <tr ng-repeat="data in data_list track by $index">
+                    <td>
+                        <span ng-bind="data.user_name"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="data.product_name"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="data.price"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="data.amount"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="data.amount - data.balance"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="data.balance"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <nav rop-pagination  class="md-pagination"  searcher="searcher" index="pageIndex" size="pageSize" total="total"></nav>
+            <div class="app-loading" ng-if="refreshing">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </div>
+        </div>
+    </div>
+</md-content>

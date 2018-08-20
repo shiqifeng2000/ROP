@@ -1,0 +1,153 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class="">
+          <a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a>
+        </li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}" aria-label="data control"
+        ng-click="reset()">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+      <md-button class="md-raised menu-button has-badge" aria-label="data control" ng-disabled="loading" ng-repeat="type in typeList track by $index"
+        ng-click="changeType(type)" ng-class="{'md-primary':(typeList._type == type)}">
+        <span ng-bind="type.notify_type_name"></span>
+      </md-button>
+    </div>
+    <span flex></span>
+    <div class="right">
+      <md-button class="md-raised md-primary text fill" aria-label="data control" ng-click="save()" ng-disabled="loading">
+        <span>保存</span>
+      </md-button>
+    </div>
+  </div>
+  <div class="body">
+    <div class="content" ng-bind-html="typeList._type.notify_type_desc  | unescapeHtml | trusthtml"></div>
+    <div class="operation">
+      <form name="mailForm" class="table-wrapper" autocomplete="off">
+        <div class="header-container">
+          <table cellspacing="0" class="md-datatable fixed">
+            <thead>
+              <tr>
+                <th>
+                  <md-icon md-svg-icon="content:ic_add_24px" class="expander" ng-click="append('mail', '#mailScroller')" ng-disabled="loading || refreshing"></md-icon>
+                </th>
+                <th>
+                  <span>邮箱提醒</span>
+                  <div class="switch-wrapper">
+                    <div class="switch">
+                      <input type="checkbox" id="mailSwitch" ng-model="notifyInfo.mail_flag" ng-true-value="'1'" ng-false-value="'0'" />
+                      <label for="mailSwitch"></label>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="scroller" id="mailScroller">
+          <table cellspacing="0" class="md-datatable">
+            <tbody>
+              <tr ng-repeat="mail in notifyInfo.mail_list track by $index">
+                <td>
+                  <md-icon md-svg-icon="content:ic_remove_24px" class="collapser" ng-click="splice('mail',$index)" ng-disabled="loading || refreshing"></md-icon>
+                </td>
+                <td class="blend-wrapper">
+                  <input type="email" class="blend" name="interval{{$index}}" placeholder="邮箱地址" ng-model="mail.mail" required maxlength="100"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+      <form name="smsForm" class="table-wrapper" autocomplete="off">
+        <div class="header-container">
+          <table cellspacing="0" class="md-datatable fixed">
+            <thead>
+              <tr>
+                <th>
+                  <md-icon md-svg-icon="content:ic_add_24px" class="expander" ng-click="append('sms', '#smsScroller')" ng-disabled="loading || refreshing"></md-icon>
+                </th>
+                <th>
+                  <span>短信提醒</span>
+                  <div class="switch-wrapper">
+                    <div class="switch">
+                      <input type="checkbox" id="smsSwitch" ng-model="notifyInfo.sms_flag" ng-true-value="'1'" ng-false-value="'0'" />
+                      <label for="smsSwitch"></label>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="scroller" id="smsScroller">
+          <table cellspacing="0" class="md-datatable">
+            <tbody>
+              <tr ng-repeat="mobile in notifyInfo.mobile_list track by $index">
+                <td>
+                  <md-icon md-svg-icon="content:ic_remove_24px" class="collapser" ng-click="splice('sms', $index)" ng-disabled="loading || refreshing"></md-icon>
+                </td>
+                <td class="blend-wrapper">
+                  <input type="text" class="blend" name="interval{{$index}}" placeholder="短信提醒" ng-model="mobile.mobile" ng-pattern="'([0-9]*)'"
+                    maxlength="11" required/>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+      <form name="urlForm" class="table-wrapper" autocomplete="off">
+        <div class="header-container">
+          <table cellspacing="0" class="md-datatable fixed">
+            <thead>
+              <tr>
+                <th>
+                  <md-icon md-svg-icon="content:ic_add_24px" class="expander" ng-click="append('url', '#urlScroller')" ng-disabled="loading || refreshing"></md-icon>
+                </th>
+                <th>
+                  <span>回调地址</span>
+                  <div class="switch-wrapper">
+                    <div class="switch">
+                      <input type="checkbox" id="urlSwitch" ng-model="notifyInfo.url_flag" ng-true-value="'1'" ng-false-value="'0'" />
+                      <label for="urlSwitch"></label>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="scroller" id="urlScroller">
+          <table cellspacing="0" class="md-datatable">
+            <tbody>
+              <tr ng-repeat="url in notifyInfo.url_list track by $index">
+                <td>
+                  <md-icon md-svg-icon="content:ic_remove_24px" class="collapser" ng-click="splice('url',$index)" ng-disabled="loading || refreshing"></md-icon>
+                </td>
+                <td class="blend-wrapper">
+                  <input type="text" class="blend" name="interval{{$index}}" placeholder="回调地址" ng-model="url.url"  maxlength="100"
+                        required/>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+    <div class="app-loading" ng-if="refreshing || loading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>

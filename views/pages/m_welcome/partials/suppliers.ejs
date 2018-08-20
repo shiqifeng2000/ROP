@@ -1,0 +1,15 @@
+<div class="wrapper">
+  <div class="banner">
+    <h2>
+      <%= __('Welcome.suppliers.title')%>
+    </h2>
+    <p>
+      <%= __('Welcome.suppliers.subtitle')%>
+    </p>
+  </div>
+  <md-grid-list class="area" md-cols="15" md-row-height="15:15" md-gutter="0px">
+    <md-grid-tile class="item" ng-repeat="ssv in items track by $index" ng-class="{odd:isOdd($index)}" ng-click="toSsv(ssv)" md-rowspan="{{(orientation == 'landscape')?3:5}}" md-colspan="{{(orientation == 'landscape')?3:5}}" ng-cloak>
+      <img ng-src="{{ssv.user_img?(ssv.user_img):''}}" />
+    </md-grid-tile>
+  </md-grid-list>
+</div>

@@ -1,0 +1,64 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class="">
+          <a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a>
+        </li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+  </div>
+</md-toolbar>
+
+<md-content class="md-padding">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading}" aria-label="data control" ng-click="reset($event)">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+    </div>
+    <div flex></div>
+    <div class="right">
+      <a href="javascript:" class="readmore" target="_blank">
+        开发工具说明
+        <md-tooltip md-direction="bottom">
+          API开发工具包是平台集成的开发框架，开发工具使用目前主流开发框架，使用时无需了解平台通信协议，目前支持JAVA、.NET(C#)、PHP三种语言，以后会陆续推出其他语言的版本，敬请期待。
+        </md-tooltip>
+      </a>
+    </div>
+  </div>
+  <div class="body">
+    <div class="column" ng-repeat="tool in toolList track by $index">
+      <md-content>
+        <div class="type">
+          <img ng-src="{{tool.type === 'java' ? '/resource/java-icon.jpg' : tool.type === '.net' ? '/resource/dotnet-icon.jpg' : tool.type === 'php' ? '/resource/php-icon.jpg' : ''}}" alt="{{tool.type}}">
+        </div>
+        <table class="md-datatable">
+          <tbody>
+            <tr>
+              <th><span>文件名称</span></th>
+              <td><span>{{tool.name}}</span></td>
+            </tr>
+            <tr>
+              <th><span>文件大小</span></th>
+              <td><span>{{tool.size}}</span></td>
+            </tr>
+            <tr>
+              <th><span>生成时间</span></th>
+              <td><span>{{tool.time}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="download">
+          <a class="md-raised text md-button md-ink-ripple fill" aria-label="data control" ng-href="{{tool.path}}" target="_blank">下载</a>
+        </div>
+      </md-content>
+    </div>
+    <div class="app-loading" ng-if="loading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>

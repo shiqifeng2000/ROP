@@ -1,0 +1,54 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}" aria-label="data control" ng-click="reset()">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+      <md-button class="md-raised md-primary menu-button" aria-label="data control" ng-click="showIPDialog($event)" ng-disabled="loading || refreshing" ng-if="::columns && validateBtnRole('btnInsert')">
+        <md-icon class="" md-svg-icon="content:ic_add_circle_outline_24px"></md-icon>
+        <span ng-bind="'添加IP'"></span>
+      </md-button>
+      <md-menu class="md-dropdown dark" md-offset="1 50" ng-disabled="!canVisistIP()" ng-if="::columns && (validateBtnRole('btnUpdate') || validateBtnRole('btnDelete'))">
+        <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-3" md-theme="dracular" ng-disabled="!canVisistIP()">
+          <span>操作</span>
+          <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+        </md-button>
+        <md-menu-content class="md-dropdown-content dark md-primary md-hue-3" md-theme="dracular" >
+          <md-menu-item ng-if="::validateBtnRole('btnUpdate')" ng-show="canVisistIP()"><md-button ng-click="showIPDialog($event,tableData._select)">修改</md-button></md-menu-item>
+          <md-menu-item ng-if="::validateBtnRole('btnDelete')" ng-show="canVisistIP()"><md-button ng-click="deleteIP()">删除</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <form class="search-wrapper" ng-submit="research()">
+        <div class="search-group">
+          <button type="submit">
+            <md-icon class="md-primary" md-svg-icon="action:ic_search_24px" ng-click="research()"></md-icon>
+          </button>
+          <input type="text" class="searcher" ng-model="keyword" placeholder="请输入IP名称......"/>
+        </div>
+      </form>
+    </div>
+    <span flex></span>
+    <div class="right">
+      <a target="_blank" class="readmore">设置IP白名单后，只有白名单IP范围内的IP可以调用API，请谨慎操作</a>
+    </div>
+  </div>
+  <div class="body">
+    <rop-datatable cols="columns" data="tableData" searcher="searcher" index="pageIndex" size="pageSize" total="total" multiple="batch"/>
+    <div class="app-loading" ng-if="refreshing || loading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>

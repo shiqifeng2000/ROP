@@ -1,0 +1,310 @@
+<md-toolbar class="md-primary md-hue-1">
+    <div class="md-toolbar-tools md-toolbar-tools-bottom">
+        <div class="breadcrumb-wrapper">
+            <ol class="breadcrumb md-body-1">
+                <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+                <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+            </ol>
+            <p>{{nav_menu.subEntry.func_desc}}</p>
+        </div>
+        <span flex></span>
+
+    </div>
+</md-toolbar>
+<md-content class="md-padding" ng-if="mode == 0">
+
+    <div class="head">
+        <div class="left">
+            <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':refreshing}" aria-label="data control" ng-click="reset($event)">
+                <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+            </md-button>
+            <md-button ng-click="updateProductMode(1)" class="md-raised md-primary menu-button" aria-label="data control" ng-disabled="::!canInsertProduct()">
+                <md-icon class="" md-svg-icon="content:ic_add_circle_outline_24px"></md-icon>
+                <span>添加产品</span>
+            </md-button>
+
+            <md-menu class="md-dropdown dark" md-offset="1 50" ng-if="!batch">
+                <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-3" md-theme="dracular" ng-disabled="!canVisistProduct()">
+                    <span>操作</span>
+                    <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                </md-button>
+                <md-menu-content class="md-dropdown-content dark md-primary md-hue-3" md-theme="dracular" >
+                    <md-menu-item ng-show="canVisistProduct()"><md-button ng-click="updateProductMode(tableData._select,1)">查看详情</md-button></md-menu-item>
+                    <md-menu-item ng-if="::validateBtnRole('btnDelete')" ng-show="canVisistProduct()"><md-button ng-click="deleteProduct(tableData._select)">删除</md-button></md-menu-item>
+                    <md-menu-item ng-if="::validateBtnRole('btnDelete')" ng-show="canVisistProduct()"><md-button ng-click="updateProductMode(tableData._select)">修改</md-button></md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <md-menu class="md-dropdown cool" md-offset="1 50" >
+                <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular" aria-label="data control">
+                    <span ng-bind="panelSelection.panelType.type_name?panelSelection.panelType.type_name:'全部'"></span>
+                    <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                </md-button>
+                <md-menu-content class="md-dropdown-content cool" >
+                    <md-menu-item>
+                        <md-button ng-click="chooseType(null, panelSelection)">全部</md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-repeat="type in panel.product_type track by $index">
+                        <md-button ng-click="chooseType(type, panelSelection)">{{type.type_name}}</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <form class="search-wrapper" ng-submit="research()">
+                <div class="search-group">
+                    <button type="submit">
+                        <md-icon class="md-primary" md-svg-icon="action:ic_search_24px" ng-click="research()"></md-icon>
+                    </button>
+                    <input type="text" class="searcher" ng-model="product_keyword" placeholder="请输入关键字......"/>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="body">
+        <rop-datatable cols="columns" data="$parent.tableData" searcher="$parent.searcher" index="$parent.pageIndex" size="$parent.pageSize" total="$parent.total" multiple="batch" sorter="panelSelection.sorter" key="'product_id'"/>
+        <!--<nav rop-pagination  class="md-pagination"  searcher="searcher" index="pageIndex" size="pageSize" total="total">
+        </nav>-->
+        <div class="app-loading" ng-if="refreshing">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+    </div>
+</md-content>
+<md-content class="md-padding updater simple" ng-show="mode == 1">
+    <div class="stepper-wrapper">
+        <rop-stepper index="step" steps="steps" />
+    </div>
+
+    <form name="updaterProductForm" autocomplete="off">
+        <div class="step-1" ng-if="step == 0">
+            <div class="table-wrapper">
+                <table cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <th>
+                            <span class="dot-required">产品名称</span>
+                        </th>
+                        <td class="blend-wrapper" colspan="3">
+                            <input type="text" class="blend" placeholder="请输入产品名称" name="product_name" ng-model="updaterProduct.product_info.product_name" ng-disabled="updaterProduct._forView" required maxlength="100"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span class="dot-required">产品类型</span>
+                        </th>
+                        <td colspan="3">
+                            <md-menu class="md-dropdown cool" md-offset="1 50" >
+                                <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular" aria-label="data control" ng-disabled="updaterProduct._forView">
+                                    <span ng-bind="updaterSelection.panelType.type_name?updaterSelection.panelType.type_name:'全部类型'"></span>
+                                    <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                                </md-button>
+                                <md-menu-content class="md-dropdown-content cool" >
+                                    <md-menu-item ng-repeat="type in panel.product_type track by $index">
+                                        <md-button ng-click="chooseType(type, updaterSelection)">{{type.type_name}}</md-button>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span class="dot-required">产品描述</span>
+                        </th>
+                        <td class="blend-wrapper">
+                            <textarea class="blend" placeholder="请输入产品描述" name="remark" spellcheck="false" rows="6" ng-model="updaterProduct.product_info.remark" ng-disabled="updaterProduct._forView" required maxlength="250"></textarea>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="button-row">
+                <md-button class="md-raised text line" aria-label="data control" ng-click="cancelStep()">
+                    <span>取消</span>
+                </md-button>
+                <md-button class="md-raised md-primary text fill" aria-label="data control" ng-click="nextStep()">
+                    <span>下一步</span>
+                </md-button>
+            </div>
+        </div>
+        <div class="step-1" ng-if="step == 1">
+            <div class="belly">
+                <div class="belly-left table-wrapper">
+                    <div class="head">
+                        <div class="search-wrapper">
+                            <div class="search-group">
+                                <button type="submit">
+                                    <md-icon class="md-primary" md-svg-icon="action:ic_search_24px"></md-icon>
+                                </button>
+                                <input type="text" class="searcher" ng-model="keyword" placeholder="请输入关键字......" ng-change="locator(keyword,updaterProduct._product_api_list,'#choosenApiScroller')"/>
+                            </div>
+                        </div>
+                        <div flex></div>
+                        <div class="right">
+                            <a href="javascript:" class="readmore">
+                                <span>已添加</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="belly-body wrapper">
+                        <table cellspacing="0" class="md-datatable fixed">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <span>选择</span>
+                                </th>
+                                <th>
+                                    <span>API名称</span>
+                                </th>
+                                <th>
+                                    <span>API描述</span>
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="scroller" id="choosenApiScroller">
+                            <table cellspacing="0" class="md-datatable">
+                            <tbody>
+                            <tr ng-repeat="api in updaterProduct._product_api_list track by $index">
+                                <td>
+                                    <md-icon md-svg-icon="content:ic_remove_24px" class="collapser" ng-class="{'disabled':updaterProduct._forView}"
+                                             ng-click="!updaterProduct._forView && removeAPI(api,updaterProduct._product_api_list)"></md-icon>
+                                </td>
+                                <td>
+                                    <p md-highlight-text="keyword">{{api.api_name}}</p>
+                                </td>
+                                <td>
+                                    <p md-highlight-text="keyword">{{api.api_title}}</p>
+                                </td>
+                            </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="belly-right table-wrapper">
+                    <div class="head">
+                        <div class="search-wrapper">
+                            <div class="search-group">
+                                <button type="submit">
+                                    <md-icon class="md-primary" md-svg-icon="action:ic_search_24px"></md-icon>
+                                </button>
+                                <input type="text" class="searcher" ng-model="candidateKeyword" placeholder="请输入关键字......" ng-change="locator(candidateKeyword,updaterProduct._api_list,'#candidateApiScroller')"/>
+                            </div>
+                        </div>
+                        <div flex></div>
+                        <div class="right">
+                            <a href="javascript:" class="readmore">
+                                <span>未添加</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="belly-body wrapper">
+                        <table cellspacing="0" class="md-datatable fixed">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <span>选择</span>
+                                </th>
+                                <th>
+                                    <span>API名称</span>
+                                </th>
+                                <th>
+                                    <span>API描述</span>
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="scroller" id="candidateApiScroller">
+                            <table cellspacing="0" class="md-datatable">
+                                <tbody>
+                                <tr ng-repeat="api in updaterProduct._api_list track by $index">
+                                    <td>
+                                        <md-icon md-svg-icon="content:ic_add_24px" class="collapser"
+                                                 ng-class="{'disabled':updaterProduct._forView}"
+                                                 ng-click="!updaterProduct._forView && appendAPI(api,updaterSelection._api_list)"></md-icon>
+                                    </td>
+                                    <td>
+                                        <p md-highlight-text="candidateKeyword">{{api.api_name}}</p>
+                                    </td>
+                                    <td>
+                                        <p md-highlight-text="candidateKeyword">{{api.api_title}}</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-row">
+                <md-button class="md-raised text line" aria-label="data control" ng-click="cancelStep()">
+                    <span>取消</span>
+                </md-button>
+                <md-button class="md-raised md-primary md-hue-3 text" aria-label="data control" ng-click="previousStep()" md-theme="dracular">
+                    <span>上一步</span>
+                </md-button>
+                <md-button class="md-raised md-primary text fill" aria-label="data control" ng-click="nextStep()">
+                    <span>下一步</span>
+                </md-button>
+            </div>
+        </div>
+
+        <div class="step-2" ng-if="step == 2">
+            <div class="wrapper">
+                <table cellspacing="0" class="md-datatable fixed">
+                    <thead>
+                    <tr>
+                        <th>
+                            <md-icon md-svg-icon="content:ic_add_24px" class="collapser" ng-class="{'disabled':updaterProduct._forView}"
+                                     ng-click="!updaterProduct._forView && append(updaterProduct.price_list,'#candidatePriceScroller')"></md-icon>
+                        </th>
+                        <th>
+                            <span>产品金额（元）</span>
+                        </th>
+                        <th>
+                            <span>调用次数</span>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="scroller" id="candidatePriceScroller">
+                    <table cellspacing="0" class="md-datatable">
+                        <tbody>
+                        <tr ng-repeat="row in updaterProduct.price_list track by $index">
+                            <td>
+                                <md-icon md-svg-icon="content:ic_remove_24px" class="collapser" ng-class="{'disabled':updaterProduct._forView}"
+                                         ng-click="!updaterProduct._forView && splice(updaterProduct.price_list,row,'#candidatePriceScroller')"></md-icon>
+                            </td>
+                            <td class="blend-wrapper">
+                                <input type="text" class="blend" name="price_{{$index}}" placeholder="金额"
+                                       ng-model="row.price"
+                                       ng-required="row.price || row.amount" ng-disabled="updaterProduct._forView"
+                                       maxlength="6"
+                                       ng-pattern="'([0]|[1-9]\\d{0,5})'"/>
+                                <span class="unit">元</span>
+                            </td>
+                            <td class="blend-wrapper">
+                                <input type="text" class="blend" name="amount_{{$index}}" placeholder="次数"
+                                       ng-model="row.amount"
+                                       ng-required="row.price || row.amount" ng-disabled="updaterProduct._forView"
+                                       maxlength="6"
+                                       ng-pattern="'([0]|[1-9]\\d{0,5})'"/>
+                                <span class="unit">次</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="button-row">
+                <md-button class="md-raised text line" aria-label="data control" ng-click="cancelStep()">
+                    <span>取消</span>
+                </md-button>
+                <md-button class="md-raised md-primary md-hue-3 text" aria-label="data control" ng-click="previousStep()" md-theme="dracular">
+                    <span>上一步</span>
+                </md-button>
+                <md-button class="md-raised md-primary text fill" aria-label="data control" ng-click="saveProduct()" ng-if="!updaterProduct._forView">
+                    <span>保存</span>
+                </md-button>
+            </div>
+        </div>
+    </form>
+</md-content>

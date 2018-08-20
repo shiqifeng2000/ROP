@@ -1,0 +1,49 @@
+<md-toolbar class="navigator  " md-theme="dracular">
+  <div class="md-toolbar-tools">
+    <img class="logo" src="/resource/logo_4.svg" ng-click="(tab != 'index') && go('index')"/>
+    <span flex></span>
+    <img class="icon" src="/resource/logo_3.svg"/>
+    <md-button class="md-icon-button" aria-label="More" ng-click="toggleSidenav()">
+      <md-icon md-svg-icon="navigation:ic_menu_24px"></md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<md-sidenav class="md-sidenav-right drawer" md-component-id="right" md-swipe-right="closeSidenav($event)" >
+
+  <md-content md-theme="dracular" class="md-primary md-hue-3">
+    <div class="logo" ng-click="(tab.key != 'index') && go('index')" style="margin-top: 3rem;">
+      <img src="/resource/logo_3.svg"/>
+    </div>
+    <md-list ng-cloak class="panel">
+      <md-list-item ng-if="profile">
+        <h3 class="title" ng-bind="profile.login_user_name"></h3>
+      </md-list-item>
+      <md-list-item ng-if="!profile" ng-click="tab && toLogin(tab.key)">
+        <h3 class="title">登录</h3>
+      </md-list-item>
+    </md-list>
+    <md-list ng-cloak>
+      <md-list-item ng-click="(tab.key != 'index') && go('index')">
+        <h3 class="title">首页</h3>
+      </md-list-item>
+      <md-list-item ng-click="(tab.key != 'suppliers') && go('suppliers')">
+        <h3 class="title">API供应商</h3>
+      </md-list-item>
+      <md-list-item ng-click="go('document')">
+        <h3 class="title">开发者中心</h3>
+      </md-list-item>
+      <md-list-item ng-if="!isProd()">
+        <a href="http://beehive.roprouter.ruixuesoft.com/" target="_blank" style="width: 100%; color: white;"><h3 class="title">快速审核</h3></a>
+      </md-list-item>
+      <md-list-item ng-if="isProd()">
+        <a href="http://m.open.rongcapital.cn/" target="_blank" style="width: 100%; color: white;"><h3 class="title">快速审核</h3></a>
+      </md-list-item>
+    </md-list>
+    <md-list ng-cloak class="quiter" ng-if="profile">
+      <md-list-item ng-click="logout()">
+        <h3 class="title">退出</h3>
+      </md-list-item>
+    </md-list>
+  </md-content>
+</md-sidenav>

@@ -1,0 +1,598 @@
+@import "m_common";
+
+body {
+  position: relative;
+  *::selection{
+    background: @themeColor;
+    color: @primaryText;
+  }
+  .highlight{
+    background: @themeColor;
+    color: @primaryText;
+  }
+
+  // navigator的设置
+  .navigator{
+    position: relative;
+    .logo{
+      height: 2rem;
+      outline:none;
+    }
+    .icon{
+      width: 2rem;
+      position: absolute;
+      top: 1.5rem;
+      left: calc(~"50% - 1rem");
+    }
+  }
+
+  .drawer{
+    z-index: 99;
+    max-width: calc(~"100vw - 9.34rem");
+    min-width: calc(~"100vw - 9.34rem");
+    width: calc(~"100vw - 9.34rem");
+    top:4.67rem;
+    @media all and (orientation:landscape) {
+      width: 23.36rem;
+      min-width: 23.36rem;
+    }
+    md-content{
+      height: calc(~"100vh - 4.67rem");
+      min-height: 30rem;
+      @media all and (orientation:landscape) {
+        min-height: 0rem;
+      }
+      position: relative;
+      outline:none;
+      .logo{
+        margin: 6rem 0 0;
+        @media all and (orientation:landscape) {
+          display: none;
+        }
+        img{
+          width: 6rem;
+          height: auto;
+          margin: 0 auto;
+          display: block;
+        }
+      }
+      .panel,.md-subheader{
+        margin: 1.3rem 0 0;
+        background: transparent;
+        md-list-item{
+          justify-content: center;
+        }
+      }
+
+      md-tabs{
+        md-tabs-wrapper{
+          display: none;
+        }
+        md-tabs-content-wrapper{
+          top:0 !important;
+        }
+      }
+
+      md-list{
+        text-align: center;
+        /*@media all and (orientation:landscape) {
+          .md-list-item-inner{
+            min-height: 5rem;
+          }
+        }*/
+        .md-list-item-inner{
+          justify-content: center;
+          .title{
+            margin: 0
+          }
+        }
+        .md-button{
+          &:focus,&:active,&:hover{
+            background: none !important;
+          }
+        }
+      }
+
+      form{
+        display: block;
+        margin: 3rem;
+        /*md-input-container {
+          label {
+            color: white;
+          }
+          &.md-dracular-theme {
+            .md-input{1
+              border-bottom-color: white;
+            }
+          }
+        }*/
+      }
+      .quiter{
+        position: absolute;
+        bottom:0;
+        left:0;
+        width: 100%;
+      }
+    }
+  }
+
+  // 这里是view的全局设置
+  .view-frame {
+    //display: block;
+    width: 100%;
+
+    &.ng-enter{
+      -webkit-transition: 0.1s linear all;
+      -moz-transition: 0.1s linear all;
+      -o-transition: 0.1s linear all;
+      transition: 0.1s linear all;
+      transition-delay: 0.1s;
+      opacity: 1;
+      overflow: hidden;
+
+      &.ng-enter-active{
+        opacity: 1;
+        overflow: visible;
+      }
+    }
+    &.ng-leave{
+      -webkit-transition: 0.1s linear all;
+      -moz-transition: 0.1s linear all;
+      -o-transition: 0.1s linear all;
+      transition: 0.1s linear all;
+
+      opacity: 1;
+      overflow: visible;
+      &.ng-leave-active {
+        opacity: 0;
+        overflow: hidden;
+      }
+    }
+    &.ng-move{
+      -webkit-transition: 0.1s linear all;
+      -moz-transition: 0.1s linear all;
+      -o-transition: 0.1s linear all;
+      transition: 0.1s linear all;
+
+      &.ng-move-active{
+
+      }
+    }
+  }
+
+  .index {
+    /*.transitionEndBubbleStop{
+      position: relative;
+      width: 100vw;
+      .swiper-container {
+        width: 100vw;
+        height: 40vw;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        .swiper-slide{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          .content{
+            h2.title{
+              font-size: 1.4rem;
+            }
+          }
+        }
+      }
+    }*/
+
+    .transitionEndBubbleStop{
+      position: relative;
+      width: 100vw;
+      #banner {
+        width: 100vw;
+        height: 60vw;
+        margin-left: auto;
+        margin-right: auto;
+        .swiper-slide {
+          width: 100vw;
+          height: 60vw;
+          font-size: 18px;
+          background: #fff;
+          transition-property: opacity,visibility;
+          /* Center slide text vertically */
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          -webkit-align-items: center;
+          align-items: center;
+          .inner{
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            text-align: center;
+            transform: scale(0.5);
+            /*.editor-wrapper {
+              width: 100%;
+              height: calc(~"100% - 32px");
+              top: 16px;
+              left: 0;
+              position: absolute;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              overflow: hidden;
+              text-align: center;
+            }*/
+          }
+          .swiper-lazy{
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            //background-size:cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+          }
+        }
+
+        .swiper-pagination{
+          height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          bottom:0;
+          transition: 0s;
+          //border-top: 1px solid @secondaryText;
+          //background: @secondaryText ;
+          .swiper-pagination-bullet{
+            height: 12px;
+            opacity: 1;
+            //background: #fafafa;
+            margin: 0 8px;
+            width: 12px;
+            background: @themeColor;
+            border-radius: 12px;
+            //box-shadow: 0 1px white;
+            transition: 0.4s width, 0.4s background-color;
+            &.swiper-pagination-bullet-active{
+              background: @themeOptionalColor8;
+              width: 36px
+            }
+          }
+        }
+      }
+    }
+    .api-overview {
+      width: 100vw;
+      height: 50vw;
+      display: flex;
+      border-top: @border 1px solid;
+      border-bottom: @border 1px solid;
+      & > div {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        &:first-child{
+          border-right: @border 1px solid;
+        }
+        & > img {
+          width: 17vw;
+          height: auto;
+        }
+        & > h1 {
+          margin: 5px 0;
+          font-size: 2rem;
+        }
+        & > p {
+          margin: 0;
+        }
+
+      }
+      .api-developer{
+        flex: 1;
+      }
+      .api-count {
+        flex: 1
+      }
+    }
+    .api-info {
+      margin-top: 10px;
+      md-toolbar {
+        color: @primaryDarkText;
+        background-color: white;
+        border-top: 1px @border solid;
+        border-bottom: 1px @border solid;
+        .md-toolbar-tools{
+          font-size: 1.4rem;
+        }
+      }
+      md-list {
+        padding: 0;
+        md-list-item {
+          margin: 0;
+          min-height: 4rem;
+          height: 4rem;
+        }
+        .api-level {
+          width: 5rem;
+          display: flex;
+          align-items: center;
+          .md-button {
+            width: 4rem;
+            min-width: 4rem;
+            height: 2rem;
+            min-height: 2rem;
+            border-radius: 1.5rem;
+            line-height: 1rem;
+            color: white;
+            margin: 0 auto;
+            &.primary {
+              background-color: #00c5a3 !important;
+              border: 1px solid #009178;
+            }
+            &.medium {
+              background-color: #ffb300 !important;
+              border: 1px solid #ff6f00;
+            }
+            &.senior {
+              background-color: #f55065 !important;
+              border: 1px solid #9c0013;
+            }
+          }
+        }
+        .content {
+          width: 80vw;
+          max-width: 80vw;
+          overflow: hidden;
+          margin-left: 5vw;
+          display: flex;
+          justify-content: center;
+          align-items: left;
+          flex-direction: column;
+          & > p {
+            margin: 0;
+            line-height: 1.2rem;
+          }
+          p.name{
+            font-size: 1rem;
+          }
+          p.title {
+            font-size: 0.9rem;
+            opacity: 0.5;
+          }
+        }
+        .table-head{
+          background-color: @evenBackground;
+          .api-level {
+            text-align: center;
+            display: flex;
+            align-items: center;
+            & > span{
+              flex: 1;
+            }
+          }
+          p{
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+  .login{
+    width: 100vw;
+    min-height: calc(~"100% - 4.67rem");
+    background: @c500;
+    md-content{
+      //height: calc(~"100vh - 20pt");
+      //min-height: 80pt;
+      //height: calc(~"100% - 40pt");
+      background: @c500;
+      padding: 40pt 20pt 0;
+      /*.logo{
+        height: calc(~"56.25vw - 1.25pt");
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img{
+          width: 50pt;
+        }
+      }*/
+      .input-container{
+        width: 100%;
+        border-radius: 5px;
+        overflow: hidden;
+        input{
+          display: block;
+          background-color: @rawBackgroundOptional;
+          border: 1px solid @border;
+          padding: 10pt;
+          font-size: 9.5pt;
+          height: 10pt;
+          line-height: 10pt;
+          width: calc(~"100% - 20pt - 2px");
+          outline:none;
+          color: @primaryDarkText;
+          border-radius: 0;
+          -webkit-border-radius:0;
+          -webkit-appearance: none;
+          &:focus{
+            background-color: white;
+          }
+          &:first-child{
+            border-bottom:none;
+          }
+          /*&:last-child{
+            border-top: none;
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+          }*/
+        }
+      }
+      .message-container{
+        height: 10pt;
+        font-size: 9pt;
+        line-height: 10pt;
+        margin: 5pt 0;
+        color: @themeColor;
+        position: relative;
+        .messages{
+          position: absolute;
+          top:0;
+          left:0;
+          right:0;
+          bottom:0;
+          &:last-child{
+            text-align: right;
+          }
+          /*&.ng-active{
+             .message{
+               &.ng-enter {
+                 transition: .2s;
+
+                 opacity: 0;
+                 max-height: 0;
+                 overflow: hidden;
+
+                 &.ng-enter-active {
+                   opacity: 1;
+                   max-height: 1rem;
+                 }
+               }
+             }
+           }*/
+          &.ng-hide-remove{
+            transition: 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            .message{
+              display: none;
+            }
+            &.ng-hide-remove-active{
+              opacity: 1;
+              visibility: visible;
+              .message{
+                display: block;
+              }
+            }
+
+          }
+          &.ng-hide-add{
+            transition: 0.3s;
+            opacity: 1;
+            visibility: visible;
+            .message{
+              display: none;
+            }
+            &.ng-hide-add-active{
+              opacity: 0;
+              visibility: hidden;
+            }
+
+          }
+          .message{
+            display: block;
+            &.ng-animate,&.ng-enter-prepare{
+              opacity: 0;
+              max-height: 0;
+              overflow: hidden;
+            }
+            &.ng-enter {
+              transition: .2s;
+
+              opacity: 0;
+              max-height: 0;
+              overflow: hidden;
+
+              &.ng-enter-active {
+                opacity: 1;
+                max-height: 1rem;
+              }
+            }
+            &.ng-leave {
+              transition: .2s;
+
+              opacity: 1;
+              overflow: hidden;
+              max-height: 1rem;
+              &.ng-leave-active {
+                opacity: 0;
+                max-height: 0;
+              }
+            }
+          }
+        }
+      }
+      .button-row{
+        height: 30pt;
+        display: flex;
+        align-items: center;
+        &.logging{
+          .submit{
+            width: 100%;
+            height: 1rem;
+            //padding:4px;
+            box-shadow:none;
+            span{
+              opacity:0;
+              visibility: hidden;
+              transition: 0s 0s all;
+            }
+            &:before{
+              content:"";
+              width:128px;
+              height: 9pt;
+              background: @themeOptionalColor8;
+              position: absolute;
+              left: -128px;
+              top: 0;
+              animation: logging 0.4s 0.4s infinite;
+            }
+          }
+        }
+        .submit{
+          //border: 1px solid @border;1
+          transition: 0.2s;
+          padding: 0 10pt;
+          font-size: 10pt;
+          height: 30pt;
+          line-height: 30pt;
+          min-height: 9pt;
+          width: 100%;
+          margin:0;
+          &:disabled{
+            background-color: @themeOptionalColor4;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+._md-buttons();
+.app-loading{
+  ._app-loading();
+}
+
+
+
+
+

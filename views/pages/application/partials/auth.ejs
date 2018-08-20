@@ -1,0 +1,53 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+  </div>
+</md-toolbar>
+
+<md-content class="md-padding">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':refreshing}" aria-label="data control" ng-click="reset($event)">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+
+      <md-button ng-click="appender()" class="md-raised md-primary menu-button" aria-label="data control">
+        <md-icon class="" md-svg-icon="content:ic_add_circle_outline_24px"></md-icon>
+        <span>添加开发者</span>
+      </md-button>
+
+      <md-button ng-click="deleteUser()" class="md-raised md-primary md-hue-3 menu-button" md-theme="dracular" ng-disabled="!canOperate()">
+        <span>删除开发者</span>
+        <md-icon class="" md-svg-icon="action:ic_delete_24px"></md-icon>
+      </md-button>
+
+      <form class="search-wrapper" ng-submit="research()">
+        <div class="search-group">
+          <button type="submit">
+            <md-icon class="md-primary" md-svg-icon="action:ic_search_24px" ng-click="research()"></md-icon>
+          </button>
+          <input type="text" class="searcher" ng-model="keyword" placeholder="请输入关键字......"/>
+        </div>
+      </form>
+    </div>
+    <div flex></div>
+    <div class="right">
+      <a target="_blank" class="readmore" href="http://open.rongcapital.cn/welcome/document/257f5b58-337c-4ff3-8a82-f85bbc499c6c">
+        应用白名单说明
+      </a>
+    </div>
+  </div>
+  <div class="body">
+    <rop-datatable cols="columns" data="tableData" searcher="searcher" index="pageIndex" size="pageSize" total="total" multiple="batch"/>
+    <div class="app-loading" ng-if="refreshing">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>

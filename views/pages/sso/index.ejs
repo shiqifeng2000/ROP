@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--公共部分页头开始-->
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-stand">
+    <meta name="session" content="<%= locals._session_id %>">
+    <meta name="module" content="sso">
+    <meta name="robots" content="index,follow">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="baidu-site-verification" content="Xi7qoGivNm" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="robots" content="sso">
+    <meta name="description" content="融数开放平台（RongCapital Open Platform 简称ROP）是以开放数据为基础服务，连接供应商（SSV）与开发者（ISV）的第三方API开放分发平台。此平台为开发者提供全面便捷的API服务，为企业、供应商提供一体化的数据开放服务，将推动各行各业定制、创新、进化，并最终促成新商业文明生态圈的建立。">
+    <meta name="keywords" content="ROP">
+
+    <base href="/">
+    <title><%= __('SSO.title')%></title>
+
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/font-awesome-animation/dist/font-awesome-animation.min.css" rel="stylesheet">
+    <link href="http://ruixuesoftpicture.oss-cn-beijing.aliyuncs.com/398a1726ce714ad4b56dd5c80751aff1/angular-material.min.css" rel="stylesheet" />
+    <link href="/css/sso.css?t=<%= process.env.token%>" rel="stylesheet" />
+    <script type="text/javascript">
+      <%if (settings.env === 'production') { %>
+      (function(j){var h=j.sdkUrl,a=j.name,d=this,g=d.document,f=null,e=null;d.RXSTREAM201607=a;d[a]=d[a]||function(i){return function(){(d[a]._rx=d[a]._rx||[]).push([i,arguments])}};var b=["track","trackSignup","userIdentify"];for(var c=0;c<b.length;c++){d[a][b[c]]=d[a].call(null,b[c])}if(!d[a].lt){f=g.createElement("script"),e=g.getElementsByTagName("script")[0];f.async=true;f.src=h;e.parentNode.insertBefore(f,e);d[a].lt=1*new Date();d[a].para=j}})({sdkUrl:"/js/plugin/rxStream.js",sendLimit:1,showLog:false,name:"rxStream",autoTrack:true,apiHost:location.protocol+"//sc.ruixuesoft.com",appId:343});
+      <% } else {%>
+      (function(j){var h=j.sdkUrl,a=j.name,d=this,g=d.document,f=null,e=null;d.RXSTREAM201607=a;d[a]=d[a]||function(i){return function(){(d[a]._rx=d[a]._rx||[]).push([i,arguments])}};var b=["track","trackSignup","userIdentify"];for(var c=0;c<b.length;c++){d[a][b[c]]=d[a].call(null,b[c])}if(!d[a].lt){f=g.createElement("script"),e=g.getElementsByTagName("script")[0];f.async=true;f.src=h;e.parentNode.insertBefore(f,e);d[a].lt=1*new Date();d[a].para=j}})({sdkUrl:"/js/plugin/rxStream.js",sendLimit:1,showLog:false,name:"rxStream",autoTrack:true,apiHost:location.protocol+"//sc.ruixuesoft.com",appId:342});
+      <% } %>
+    </script>
+</head>
+
+<body>
+
+<% include ../loading.ejs %>
+
+<div ui-view="" id="partials" class="view-frame {{tab.key}}" ng-cloak></div>
+
+<script type="text/javascript">
+    eval('<%-locals._injection%>');
+</script>
+<script type="text/javascript" src="/js/plugin/modernizr.js"></script>
+<script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="http://ruixuesoftpicture.oss-cn-beijing.aliyuncs.com/398a1726ce714ad4b56dd5c80751aff1/angular.min.js"></script>
+<script type="text/javascript" src="/vendor/angular-cookies/angular-cookies.js"></script>
+<script type="text/javascript" src="/vendor/angular-messages/angular-messages.js"></script>
+<script type="text/javascript" src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="/vendor/angular-animate/angular-animate.js"></script>
+<script type="text/javascript" src="/vendor/angular-aria/angular-aria.js"></script>
+<script type="text/javascript" src="/vendor/oclazyload/dist/ocLazyLoad.require.js"></script>
+<script type="text/javascript" src="http://ruixuesoftpicture.oss-cn-beijing.aliyuncs.com/398a1726ce714ad4b56dd5c80751aff1/angular-material.min.js"></script>
+
+<script type="text/javascript" src="/vendor/Snap.svg/dist/snap.svg-min.js"></script>
+<script type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/vendor/requirejs/require.js"></script>
+
+<script type="text/javascript" src="/js/common.js?t=<%= process.env.token%>"></script>
+<script type="text/javascript" src="/js/angular/directives.js?t=<%= process.env.token%>"></script>
+<script type="text/javascript" src="/js/angular/filters.js?t=<%= process.env.token%>"></script>
+<script type="text/javascript" src="/js/angular/services.js?t=<%= process.env.token%>"></script>
+<script type="text/javascript" src="/js/angular/sso/controllers.js?t=<%= process.env.token%>"></script>
+<script type="text/javascript" src="/js/angular/sso/main.js?t=<%= process.env.token%>" defer></script>
+</body>
+</html>

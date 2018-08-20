@@ -1,0 +1,50 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}" aria-label="data control" ng-click="reset()">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+
+      <md-menu class="md-dropdown cool" md-offset="1 50" >
+        <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular" aria-label="data control" ng-disabled="loading">
+          <span ng-bind="selectChannel?selectChannel.channel_name:'全部通道'"></span>
+          <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+        </md-button>
+        <md-menu-content class="md-dropdown-content cool" >
+          <md-menu-item><md-button ng-click="chooseChannel()">全部通道</md-button></md-menu-item>
+          <md-menu-item ng-repeat="channel in channels track by $index"><md-button ng-click="chooseChannel(channel)">{{channel.channel_name}}</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+      <!--<md-button class="md-raised md-primary md-hue-3 text md-button" md-theme="dracular" aria-label="data control">
+        <span>删除</span>
+      </md-button>-->
+      <rop-date-range-picker ng-model="searchdate" min-date="mindate" max-date="maxdate" callback="research" placeholder="请输入日期" class="md-primary" ></rop-date-range-picker>
+    </div>
+    <span flex></span>
+    <div class="right">
+      <md-button class="md-raised md-primary text fill" aria-label="data control" ng-disabled="loading || refershing" ng-click="export()">
+        <span>导出</span>
+      </md-button>
+    </div>
+  </div>
+  <div class="body">
+    <rop-datatable cols="columns" data="tableData" searcher="searcher" index="pageIndex" size="pageSize" total="total" noselection="noselection"/>
+    <div class="app-loading" ng-if="refreshing || loading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>

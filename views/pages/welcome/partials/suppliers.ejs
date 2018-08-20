@@ -1,0 +1,24 @@
+
+<div class="wrapper" style="min-height: 100vh">
+    <div class="banner">
+      <div class="text-center">
+        <h2 class="title"><span><%= __('Welcome.suppliers.title')%></span></h2>
+
+        <p class="desc"><span><%= __('Welcome.suppliers.subtitle')%></span></p>
+      </div>
+    </div>
+
+    <md-grid-list md-cols="6" md-row-height="1:1" md-gutter="0px">
+        <md-grid-tile ng-repeat="ssv in items track by $index" ng-class="{odd:isOdd($index)}" ng-click="toSsv(ssv)">
+            <img ng-src="{{ssv.user_img?(ssv.user_img):''}}"  />
+            <!--<img src="/resource/logo/kzwc.png" />-->
+            <div class="ssv-description">
+                <p ng-bind="ssv.user_intro"></p>
+            </div>
+        </md-grid-tile>
+    </md-grid-list>
+</div>
+
+<script type="text/javascript" src="/js/plugin/svgfixer.js"></script>
+
+<% include ./footer.ejs %>

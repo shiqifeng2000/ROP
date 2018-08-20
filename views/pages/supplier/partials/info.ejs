@@ -1,0 +1,54 @@
+<div class="marginer">
+  <md-grid-list md-cols="1" md-row-height="3:1" md-gutter="24px" ng-class="{'_loading':loading}">
+    <md-grid-tile class="" md-rowspan="{{span}}" ng-init="span = 1" ng-click="(span == 2)?(span = 1):(span = 2)"
+                  ng-repeat="info in infos track by $index">
+      <h2 class="md-subhead title">{{info.notice_title}}</h2>
+      <p class="md-body-1 subtitle"><!--{{info.create_user_id}}--></p>
+      <div class="container" flex>
+        <p class="desc fadding" ng-show="span == 1">
+          {{info.notice_desc}}
+        </p>
+        <div class="details fadding" ng-show="span == 2"
+             ng-bind-html="info.notice_content | unescapeHtml | trusthtml"></div>
+      </div>
+      <div class="footer" layout="row">
+        <a flex class="readmore" href="javascript:"><span
+            class="fa fa-fw fa-tag mr-5"></span><%= __("Supplier.info.tag") %></a>
+        <div class="calender">
+          <div class="upper">{{info.insertTime | parseYear}}.{{info.insertTime | parseMonth}}</div>
+          <div class="beneath">{{info.insertTime | parseDate}}</div>
+        </div>
+      </div>
+    </md-grid-tile>
+  </md-grid-list>
+
+  <div layout="column" class="pitty" ng-show="loaded && !loading && !(infos && infos.length)" ng-fill>
+    <h2 class="md-title"><%= __("Supplier.info.none") %></h2>
+  </div>
+  <div class="button-row" ng-show="loaded && (infos && infos.length)">
+    <md-button class="md-primary md-radius-button-2 md-raised progress-button"  ng-class="{'active': loading}" aria-label="data control"
+               ng-click="searcher()">
+      <img src="/resource/application/progressing.png" class="progress-icon">
+      <%= __("Supplier.info.loadmore") %>
+    </md-button>
+  </div>
+</div>
+
+<% include ./footer.ejs %>
+<!--
+<script>
+    $(function(){
+        var type = 'anonymous';
+        try{
+            type = JSON.parse(getCookie("_session")).login_user_type
+        } catch(e){
+
+        }
+        bassdk.quick('setDefaultAttr');
+        bassdk.track('visit', {
+            pageName: window._ssv.ssv_name+'公告',
+            userType: type,
+            pageType: "供应商公告页"
+        });
+    });
+</script>-->

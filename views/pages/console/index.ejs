@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="ConsoleApp" >
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-stand">
+    <meta name="session" content="<%= locals._session_id %>">
+    <meta name="module" content="console">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="baidu-site-verification" content="Xi7qoGivNm" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="robots" content="console">
+    <meta name="description" content="融数开放平台（RongCapital Open Platform 简称ROP）是以开放数据为基础服务，连接供应商（SSV）与开发者（ISV）的第三方API开放分发平台。此平台为开发者提供全面便捷的API服务，为企业、供应商提供一体化的数据开放服务，将推动各行各业定制、创新、进化，并最终促成新商业文明生态圈的建立。">
+    <meta name="keywords" content="ROP">
+
+    <base href="/">
+    <title ng-bind="systemHints&&systemHints.length? '<%= __("Console.title.hint.front")%>'+systemHints.length+'<%= __("Console.title.hint.rear")%>':'<%= __("Console.title")%>'"></title>
+
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/build/console/bootstrap.min.css" rel="stylesheet" />
+    <link href="/build/console/font-awesome-animation.min.css" rel="stylesheet" />
+    <link href="http://ruixuesoftpicture.oss-cn-beijing.aliyuncs.com/398a1726ce714ad4b56dd5c80751aff1/angular-material.min.css" rel="stylesheet" />
+    <link href="/build/console/bundle.css?t=<%= process.env.token%>" rel="stylesheet" />
+
+</head>
+
+<body ng-controller="ConsoleCtrl" ng-init="::init()" > <!--ng-class="tab"-->
+<% include ../loading.ejs %>
+
+<div ui-view id="partials" class="view-frame {{tab}}"></div>
+
+<script type="text/javascript">
+    eval('<%-locals._injection%>');
+</script>
+<script type="text/javascript" src="/js/plugin/modernizr.js"></script>
+<script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="http://ruixuesoftpicture.oss-cn-beijing.aliyuncs.com/398a1726ce714ad4b56dd5c80751aff1/angular.min.js"></script>
+<script type="text/javascript" src="/vendor/angular-cookies/angular-cookies.js"></script>
+<script type="text/javascript" src="/vendor/angular-messages/angular-messages.js"></script>
+<script type="text/javascript" src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="/vendor/angular-animate/angular-animate.js"></script>
+<script type="text/javascript" src="/vendor/angular-aria/angular-aria.js"></script>
+<script type="text/javascript" src="http://ruixuesoftpicture.oss-cn-beijing.aliyuncs.com/398a1726ce714ad4b56dd5c80751aff1/angular-material.min.js"></script>
+
+<script type="text/javascript" src="/vendor/Snap.svg/dist/snap.svg-min.js"></script>
+<script type="text/javascript" src="/build/console/bootstrap.min.js"></script>
+<script type="text/javascript" src="/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.min.js"></script>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/vendor/requirejs/require.js"></script>
+
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/angular/console.js"></script>
+<!--<script type="text/javascript" src="/build/console/bundle.js"></script>-->
+</body>
+</html>

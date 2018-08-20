@@ -1,0 +1,538 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}"/>{{nav_menu.entry.func_name}}</a>
+        </li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+  </div>
+</md-toolbar>
+<form md-content class="md-padding ssv-form" ng-show="!mode" name="ssvForm">
+  <!--<div rop-editor options="options" id="editor" ng-model="doc.doc_content" style="width: 500px;height:500px" contenteditable="true"/>-->
+  <!--<div ngf-drop ngf-select ng-model="files" class="drop-box"
+       ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+       accept="image/*,application/pdf"
+       ngf-pattern="'image/*,application/pdf'">Drop pdfs or images here or click to upload</div>
+  <img ngf-src="file" ng-repeat="file in files track by $index"/>-->
+  <md-toolbar class="navigator md-primary md-hue-3 md-whiteframe-3dp " md-theme="dracular">
+    <!--ng-style="{opacity:(_toolbarFeature != 1)?1:0,visibility:(_toolbarFeature != 1)?'visible':'hidden'}"-->
+    <div class="md-toolbar-tools  md-toolbar-tools-bottom">
+      <div class="navigator-ruler">
+        <div class="navigator-img-wrapper">
+          <img class="navigator-img" src="{{logo.imageInfo.image_url}}"/>
+          <div class="operator">
+            <md-icon md-svg-icon="image:ic_landscape_24px" ng-click="showDialog($event, bigLogo)" class="bigger">
+              <md-tooltip md-direction="down">大号Logo应用于ROP供应商一览，建议使用正方形单色图<br />尺寸不小于200x200像素</md-tooltip>
+            </md-icon>
+            <md-icon md-svg-icon="image:ic_landscape_24px" ng-click="showDialog($event, logo)" class="big"></md-icon>
+            <md-icon md-svg-icon="action:ic_delete_24px" ng-click="clearLogo()"></md-icon>
+          </div>
+        </div>
+      </div>
+      <div class="navigator-panel">
+        <md-button><%= __('Supplier.api') %></md-button>
+        <md-button><%= __('Supplier.info') %></md-button>
+        <md-button><%= __('Supplier.allcomment') %></md-button>
+      </div>
+      <div class="navigator-profile" layout="row" layout-align="end" flex>
+        <div class="navigator-menu">
+          <md-button>
+            <md-icon class="pr-5" md-svg-icon="action:ic_perm_identity_24px"></md-icon>
+            <%= __('Supplier.nav.notlogin') %>
+          </md-button>
+        </div>
+        <div class="site-brand">
+          <md-button class=" " aria-label="<%= __('Supplier.nav.return') %>">
+            <md-icon md-svg-icon="/resource/logo_3.svg"></md-icon>
+          </md-button>
+        </div>
+      </div>
+      <div class="">
+        <md-button class="text fill" ng-click="saveSsv()" ng-disabled="refreshing || loading">保存</md-button>
+      </div>
+    </div>
+  </md-toolbar>
+
+  <md-content class="carousel-row">
+    <div id="ssv-carousel" class="carousel slide" data-ride="carousel" data-interval="false" data-keyboard="false">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#ssv-carousel" data-slide-to="{{$index}}" ng-repeat="carousel in carousels track by $index"
+            ng-class="{'active':!$index}"></li>
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+        <div class="item" ng-repeat="carousel in carousels track by $index" ng-class="{'active':!$index}"
+             ng-style="{'background':carousel.imageInfo && ('url('+carousel.imageInfo.image_url+') no-repeat center/cover')}">
+          <div class="editor-wrapper">
+            <div options="options" id="{{'slide'+$index+'_editor'}}" class="{{'slide'+$index+'_editor'}}"/>
+            <!--<md-input-container md-no-float class="md-block title">
+              <input ng-model="carousel.title" type="text" placeholder="标题" maxlength="100">
+            </md-input-container>
+            <md-input-container md-no-float class="md-block description">
+              <input ng-model="carousel.content" type="text" placeholder="正文内容">
+            </md-input-container>-->
+          </div>
+          <div class="operator">
+            <md-icon md-svg-icon="content:ic_clear_24px" ng-show="$index"
+                     ng-click="$parent.removeCarousel($index)"></md-icon>
+            <md-icon md-svg-icon="image:ic_landscape_24px" ng-click="showDialog($event, carousel)"></md-icon>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <a class="left carousel-control" role="button" data-slide="prev" ng-href="{{'#ssv-carousel'}}">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" role="button" data-slide="next" ng-href="{{'#ssv-carousel'}}">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+    <div class="operator">
+      <md-icon md-svg-icon="content:ic_add_24px" ng-click="addCarousel()"></md-icon>
+    </div>
+  </md-content>
+
+  <md-content class="icon-row" ng-class="{'func-collapse': feature.uncheck}">
+    <p class="hidden-title">网站特性</p>
+    <md-grid-list
+      md-row-height="60:60" md-cols="60"
+      md-gutter="8px">
+
+      <md-grid-tile md-rowspan="{{calcFeatureColspan()}}" md-colspan="{{calcFeatureColspan()}}"
+                    ng-repeat="tile in feature.list track by $index">
+        <label class="image-uploader"
+               ng-style="{'background':tile.imageInfo && tile.imageInfo.image_url && ('url('+tile.imageInfo.image_url+') no-repeat center/cover')}">
+          <div class="operator">
+            <md-icon md-svg-icon="image:ic_landscape_24px" ng-click="showDialog($event, tile)"></md-icon>
+          </div>
+        </label>
+        <md-input-container md-no-float class="md-block title">
+          <input ng-model="tile.feature_title" type="text" placeholder="标题" maxlength="100">
+        </md-input-container>
+        <md-input-container md-no-float class="md-block description">
+          <input ng-model="tile.feature_desc" type="text" placeholder="正文内容">
+        </md-input-container>
+        <div class="operator">
+          <md-icon md-svg-icon="content:ic_clear_24px" ng-click="removeFeatureCol(tile)"></md-icon>
+        </div>
+      </md-grid-tile>
+    </md-grid-list>
+    <div class="operator">
+      <md-icon md-svg-icon="content:ic_clear_24px" ng-click="toggleCheck(feature)"></md-icon>
+      <md-icon md-svg-icon="content:ic_add_24px" ng-click="appendFeatureCol()"></md-icon>
+    </div>
+  </md-content>
+
+  <md-content class="aboutus-row" ng-class="{'func-collapse': aboutus.uncheck}"
+              ng-style="{'background':aboutus.imageInfo && aboutus.imageInfo.image_url && ('url('+aboutus.imageInfo.image_url+') no-repeat center/cover')}">
+    <md-grid-list
+      md-row-height="4:4" md-cols="4"
+      md-gutter="8px">
+      <md-grid-tile md-rowspan="1" md-colspan="{{aboutus.newsUncheck?4:3}}" class="aboutus">
+        <div options="options" ng-model="aboutus.about_desc" class="aboutus-editor"/>
+        <div class="bottom">
+          <md-button class="md-primary md-raised md-radius-button-1" aria-label="Settings"
+                     ng-href="{{ssv_intro.website}}" target="_blank">
+            <%= __('Supplier.index.checkdetails') %>
+          </md-button>
+          <md-input-container md-no-float class="md-block">
+            <input ng-model="aboutus.website" type="url" placeholder="供应商网址" maxlength="250">
+          </md-input-container>
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile md-rowspan="1" md-colspan="1" class="news" ng-if="!aboutus.newsUncheck">
+        <h2><%= __("Supplier.index.whatsup") %></h2>
+        <nav>
+          <ul class="nav nav-stacked">
+            <li>
+              <a href="javascript:">接口消息</a>
+            </li>
+            <li>
+              <a href="javascript:">接口消息</a>
+            </li>
+            <li>
+              <a href="javascript:">接口消息</a>
+            </li>
+            <li>
+              <a href="javascript:">接口消息</a>
+            </li>
+            <li>
+              <a href="javascript:">接口消息</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="operator">
+          <md-icon md-svg-icon="content:ic_clear_24px" ng-click="aboutus.newsUncheck = true"></md-icon>
+        </div>
+      </md-grid-tile>
+    </md-grid-list>
+    <p class="hidden-title">关于我们</p>
+    <div class="operator">
+      <md-icon md-svg-icon="content:ic_clear_24px" ng-click="toggleCheck(aboutus)"></md-icon>
+      <md-icon md-svg-icon="image:ic_landscape_24px" ng-click="showDialog($event, aboutus)"></md-icon>
+      <md-icon md-svg-icon="av:ic_volume_up_24px" ng-click="aboutus.newsUncheck = !aboutus.newsUncheck"></md-icon>
+    </div>
+    </div>
+  </md-content>
+
+  <md-content class="stat-row" ng-class="{'func-collapse': apiAvailable.uncheck}">
+    <p class="hidden-title">开放的API</p>
+    <md-grid-list md-row-height="4:4" md-cols="4" md-gutter="8px">
+      <md-grid-tile md-rowspan="1" md-colspan="4">
+        <div class="item">
+          <img src="/resource/supplier/apikfz.png"/>
+          <h1 class="md-display-3"><span class="timer digit">9999</span></h1>
+          <p class="md-title"><%= __("Supplier.index.users") %></p>
+        </div>
+        <div class="item">
+          <img src="/resource/supplier/sc.png"/>
+          <h1 class="md-display-3"><span class="timer digit">9999</span></h1>
+          <p class="md-title"><%= __("Supplier.index.bookmarked") %></p>
+        </div>
+        <div class="item">
+          <img src="/resource/supplier/kfaipsl.png"/>
+          <h1 class="md-display-3"><span class="timer digit">9999</span></h1>
+          <p class="md-title"><%= __("Supplier.index.apinumbers") %></p>
+        </div>
+      </md-grid-tile>
+    </md-grid-list>
+    <div class="operator">
+      <md-icon md-svg-icon="content:ic_clear_24px" ng-click="toggleCheck(apiAvailable)"></md-icon>
+    </div>
+  </md-content>
+
+  <md-content class="dev-row" ng-class="{'func-collapse': successDevelopers.uncheck}">
+    <p class="hidden-title">成功开发者</p>
+    <div class="inner">
+      <md-radio-group ng-model="successDevelopers.isv_show_type">
+
+        <md-radio-button value="0" class="md-primary" md-ink-ripple>全部显示</md-radio-button>
+        <md-radio-button value="1" class="md-primary" md-ink-ripple>显示调用量排名前10</md-radio-button>
+        <md-radio-button value="2" class="md-primary" md-ink-ripple>显示调用量排名前20</md-radio-button>
+
+      </md-radio-group>
+    </div>
+    <div class="operator">
+      <md-icon md-svg-icon="content:ic_clear_24px" ng-click="toggleCheck(successDevelopers)"></md-icon>
+    </div>
+  </md-content>
+
+  <md-content class="above-footer" ng-class="{'func-collapse': aboveFooter.uncheck}">
+    <p class="hidden-title">联系信息</p>
+    <ul class="list-icons">
+      <li>
+        <a href="javascript:">
+          <i class="fa fa-map-marker pr-10"></i>
+          <md-input-container md-no-float class="md-block">
+            <input ng-model="aboveFooter.address" type="text" placeholder="供应商地址" maxlength="250">
+          </md-input-container>
+        </a>
+      </li>
+      <li>
+        <a href="javascript:"><i class="fa fa-phone pr-10"></i>
+          <md-input-container md-no-float class="md-block">
+            <input ng-model="aboveFooter.tel" type="text" placeholder="供应商电话" maxlength="25">
+          </md-input-container>
+        </a>
+      </li>
+      <li>
+        <a href="javascript:">
+          <i class="fa fa-fax pr-10"></i>
+          <md-input-container md-no-float class="md-block">
+            <input ng-model="aboveFooter.fax" type="text" placeholder="供应商传真" maxlength="25">
+          </md-input-container>
+        </a>
+      </li>
+      <li>
+        <a href="javascript:">
+          <i class="fa fa-envelope-o pr-10"></i>
+          <md-input-container md-no-float class="md-block">
+            <input ng-model="aboveFooter.email" type="email" placeholder="供应商邮箱" maxlength="250">
+          </md-input-container>
+        </a>
+      </li>
+      <li>
+        <a href="javascript:">
+          <i class="fa fa-qq pr-10"></i>
+          <md-input-container md-no-float class="md-block">
+            <input ng-model="aboveFooter.qq" type="text" placeholder="供应商QQ" maxlength="25" pattern="[1-9][0-9]{4,}">
+          </md-input-container>
+        </a>
+      </li>
+      <li>
+        <a href="javascript:">
+          <i class="fa fa-weixin pr-10"></i>
+          <md-input-container md-no-float class="md-block">
+            <input ng-model="aboveFooter.weixin" type="text" placeholder="供应商微信" maxlength="250">
+          </md-input-container>
+        </a>
+      </li>
+      <li>
+        <a href="javascript:">
+          <i class="fa fa-weibo pr-10"></i>
+          <md-input-container md-no-float class="md-block">
+            <input ng-model="aboveFooter.weibo" type="text" placeholder="供应商微博" maxlength="250">
+          </md-input-container>
+        </a>
+      </li>
+    </ul>
+    <div class="operator">
+      <md-icon md-svg-icon="content:ic_clear_24px" ng-click="toggleCheck(aboveFooter)"></md-icon>
+    </div>
+  </md-content>
+
+  <md-toolbar class="ssv-footer">
+    <div class="md-toolbar-tools  md-toolbar-tools-bottom">
+      <div>
+        <p class="text-muted"><%= __('Supplier.footer.powerby') %> <a
+            href="javascript:"><%= __('ROP') %></a> <%= __('Copyright') %></p>
+      </div>
+      <div flex>
+        <ul class="quick-visit pull-right">
+          <li><a class="text-muted" href="javascript:"><%= __('Supplier.api') %></a></li>
+          <li><a class="text-muted" href="javascript:"><%= __('Supplier.info') %></a></li>
+          <li><a class="text-muted" href="javascript:"><%= __('Supplier.allcomment') %></a></li>
+        </ul>
+      </div>
+      <div class="logo">
+        <img src="/resource/logo_4.svg">
+      </div>
+    </div>
+  </md-toolbar>
+  <div class="app-loading" ng-if="loading || refreshing">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+</form>
+
+<md-content class="md-padding" ng-if="mode">
+  <div class="material-manager">
+    <div class="group">
+      <md-list ng-cloak>
+        <md-subheader class="md-no-sticky">素材分组</md-subheader>
+        <md-list-item ng-click="selectType(type)" ng-repeat="type in types track by $index" ng-class="{'active': selectedType === type}"
+                      aria-label="分组列表">
+          <p ng-bind="type.type_name+'('+type.image_count+')'"></p>
+        </md-list-item>
+        <md-list-item ng-click="createImagesType($event)" aria-label="分组列表">
+          <md-icon md-svg-icon="content:ic_add_24px"></md-icon>
+          <p>新建分组</p>
+        </md-list-item>
+        <form class="message-box" ng-if="filesOperating && (filesOperating.operation == 'create')" ng-style="{'left':materialManagerMessageBox.left, 'top': materialManagerMessageBox.top}">
+          <p class="editor-label">编辑名称</p>
+          <input type="text" class="editor" ng-model="filesOperating.type.type_name" maxlength="100"/>
+          <div class="button-row">
+            <md-button class="md-raised text line" aria-label="data control" ng-click="confirmCreateType(0)">
+              <span>取消</span>
+            </md-button>
+            <md-button class="md-raised md-primary text fill progress-button" aria-label="data control"
+                       ng-click="confirmCreateType(1)" ng-class="{'active':refreshing}" type="submit">
+              <img src="/resource/application/progressing.png" class="progress-icon"/>
+              <span>确定</span>
+            </md-button>
+          </div>
+        </form>
+      </md-list>
+    </div>
+    <div class="area">
+      <div class="topArea">
+        <div class="group-info">
+          <span class="text" ng-bind="selectedType.type_name"></span>
+          <div class="operator" ng-show="selectedType.type_id && (selectedType.type_id != -1)">
+            <md-icon md-svg-icon="image:ic_edit_24px" ng-click="editImagesType(file)"></md-icon>
+            <md-icon md-svg-icon="action:ic_delete_24px" ng-click="deleteImagesType(file)"></md-icon>
+            <div class="message-box" ng-if="filesOperating && (filesOperating.operation == 'delete_type')">
+              <p class="message" ng-bind="canDeleteType()?'您是否确认要删除当前分组':'当前分组存在已上传的图片，请不要删除'"></p>
+              <div class="button-row">
+                <md-button class="md-raised text line" aria-label="data control" ng-click="confirmDeleteType(0)">
+                  <span>取消</span>
+                </md-button>
+                <md-button class="md-raised md-primary text fill" aria-label="data control"
+                           ng-click="confirmDeleteType(1)" ng-disabled="!canDeleteType()">
+                  <span>确定</span>
+                </md-button>
+              </div>
+            </div>
+
+            <form class="message-box" ng-if="filesOperating && (filesOperating.operation == 'edit_type')"
+                  style="right: -93px">
+              <p class="editor-label">编辑名称</p>
+              <input type="text" class="editor" ng-model="filesOperating.type.type_name" maxlength="100"/>
+              <div class="button-row">
+                <md-button class="md-raised text line" aria-label="data control" ng-click="confirmEditType(0)">
+                  <span>取消</span>
+                </md-button>
+                <md-button class="md-raised md-primary text fill progress-button" aria-label="data control"
+                           ng-click="confirmEditType(1)" type="submit" ng-class="{'active':refreshing}">
+                  <img src="/resource/application/progressing.png" class="progress-icon"/>
+                  <span>确定</span>
+                </md-button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <span>图片上传总共大小不超于48M 单张图片不超过2M</span>
+        <button class="text md-button fill progress-button" type="file" ng-model="files"
+                ngf-select="upload($files, $invalidFiles)" ngf-multiple="true" accept="image/jpeg,image/jpg,image/png"
+                ngf-pattern="'image/jpeg,image/jpg,image/png'" ngf-max-size="2097152" ngf-max-total-size="50331648">
+          <span>本地上传</span>
+        </button>
+      </div>
+      <div class="selection">
+        <md-checkbox aria-label="Checkbox 1" class="md-primary" ng-checked="hasAllFilesSelected()"
+                     ng-click="toggleAllFileSelected()">全选
+        </md-checkbox>
+        <md-button class="md-raised md-primary text fill" aria-label="data1" ng-click="moveImages()"
+                   ng-disabled="!hasFilesSelected()">
+          <span>移动分组</span>
+        </md-button>
+        <md-button class="md-raised md-primary md-hue-3 text" aria-label="data control1" ng-click="deleteImages()"
+                   md-theme="dracular" ng-disabled="!hasFilesSelected()">
+          <span>删除</span>
+        </md-button>
+        <div class="message-box delete" ng-if="filesOperating && (filesOperating.operation == 'delete')">
+          <p class="message">确定删除选中素材吗？</p>
+          <div class="button-row">
+            <md-button class="text line" aria-label="data control" ng-click="confirmDeleteImages(0)">
+              <span>取消</span>
+            </md-button>
+            <md-button class="md-primary text fill progress-button" aria-label="data control"
+                       ng-click="confirmDeleteImages(1)" ng-class="{'active':refreshing}">
+              <img src="/resource/application/progressing.png" class="progress-icon"/>
+              <span>确定</span>
+            </md-button>
+          </div>
+        </div>
+        <form class="message-box radio-group move" ng-if="filesOperating && (filesOperating.operation == 'move')">
+          <md-radio-group ng-model="filesOperating.type_id">
+            <md-radio-button ng-value="type.type_id" class="md-primary" aria-label="单选按钮" ng-repeat="type in types track by $index"
+                             ng-if="type.type_id">{{type.type_name}}
+            </md-radio-button>
+          </md-radio-group>
+          <div class="button-row">
+            <md-button class="text line" aria-label="data control" ng-click="confirmMoveImages(0)">
+              <span>取消</span>
+            </md-button>
+            <md-button class="md-primary text fill progress-button" aria-label="data control"
+                       ng-click="confirmMoveImages(1)" ng-class="{'active':refreshing}" type="submit">
+              <img src="/resource/application/progressing.png" class="progress-icon"/>
+              <span>确定</span>
+            </md-button>
+          </div>
+        </form>
+      </div>
+      <div class="drop-box" ngf-drop ng-model="files" ng-change="upload()" ngf-drag-over-class="'dragover'"
+           ngf-multiple="true" ngf-allow-dir="true" accept="image/jpeg,image/jpg,image/png"
+           ngf-pattern="'image/jpeg,image/jpg,image/png'" ngf-max-size="2097152" ngf-max-total-size="50331648">
+        <div class="rop-progress-bar" ng-if="progress">
+          <div class="info-bar">
+            <span class="file-name" ng-bind="progress.fileUploading.name"></span>
+            <span class="file-size" class="number-loaded" ng-bind="progress.numberUploaded + '/' + files.length"></span>
+          </div>
+          <div class="bar">
+            <div class="inner" ng-style="{'width':progress.percent + '%'}"></div>
+          </div>
+        </div>
+        <!--<div class="content">
+          <div class="item" ng-repeat="file in serverFiles track by $index">
+            <div class="m_thumbnail" ng-style="{'background-image':'url('+file.url+')'}"></div>
+            <p class="title">product1.png</p>
+            <div class="tools">
+              <md-icon md-svg-icon="edit:ic_border_color_24px" ng-click=""></md-icon>
+              <md-icon md-svg-icon="action:ic_delete_24px"></md-icon>
+              <md-icon md-svg-icon="action:ic_swap_horiz_24px"></md-icon>
+            </div>
+          </div>
+        </div>-->
+        <md-grid-list md-row-height="60:60" md-cols="60" md-gutter="8px" class="content">
+          <md-grid-tile md-rowspan="16" md-colspan="12" class="item" ng-repeat="file in tableData track by $index">
+            <div class="m_thumbnail" ng-style="{'background-image':'url('+(file.image_url_oss||file.image_url)+')'}"
+                 ng-click="showPortraits(file,$event)"></div>
+            <div class="title">
+              <md-checkbox aria-label="Checkbox 1" ng-model="file._select" class="md-primary"
+                           ng-click="cancelOperation()">{{file.image_name}}
+              </md-checkbox>
+            </div>
+            <div class="tools">
+              <md-icon md-svg-icon="image:ic_edit_24px" ng-click="editImageName(file)"></md-icon>
+              <md-icon md-svg-icon="action:ic_delete_24px" ng-click="deleteImage(file)"></md-icon>
+              <md-icon md-svg-icon="action:ic_swap_horiz_24px" ng-click="changeImageType(file)"></md-icon>
+              <form class="message-box" ng-if="(fileOperating.file === file) && (fileOperating.operation == 'edit')"
+                    ng-style="{'left':!($index%5)?'-1px':(($index%5 == 4)?'auto':'calc(50% - 125px)'),'right':($index%5 == 4)?'-1px':'auto'}">
+                <p class="editor-label">编辑名称</p>
+                <input type="text" class="editor" ng-model="file.image_name" maxlength="100"/>
+                <div class="button-row">
+                  <md-button class="md-raised text line" aria-label="data control" ng-click="confirmEditImage(0)">
+                    <span>取消</span>
+                  </md-button>
+                  <md-button class="md-raised md-primary text fill progress-button" aria-label="data control"
+                             ng-click="confirmEditImage(1)" ng-class="{'active':refreshing}" type="submit">
+                    <img src="/resource/application/progressing.png" class="progress-icon"/>
+                    <span>确定</span>
+                  </md-button>
+                </div>
+              </form>
+
+              <div class="message-box" ng-if="(fileOperating.file === file) && (fileOperating.operation == 'delete')"
+                   ng-style="{'left':!($index%5)?'-1px':(($index%5 == 4)?'auto':'calc(50% - 125px)'),'right':($index%5 == 4)?'-1px':'auto'}">
+                <p class="message" style="justify-content: center">确定删除此素材吗？</p>
+                <div class="button-row">
+                  <md-button class="text line" aria-label="data control" ng-click="confirmDeleteImage(0)">
+                    <span>取消</span>
+                  </md-button>
+                  <md-button class="md-primary text fill progress-button" aria-label="data control"
+                             ng-click="confirmDeleteImage(1)" ng-class="{'active':refreshing}">
+                    <img src="/resource/application/progressing.png" class="progress-icon"/>
+                    <span>确定</span>
+                  </md-button>
+                </div>
+              </div>
+
+              <div class="message-box radio-group"
+                   ng-if="(fileOperating.file === file) && (fileOperating.operation == 'move')"
+                   ng-style="{'left':!($index%5)?'-1px':(($index%5 == 4)?'auto':'calc(50% - 125px)'),'right':($index%5 == 4)?'-1px':'auto'}">
+                <md-radio-group ng-model="fileOperating.type_id">
+                  <md-radio-button ng-value="type.type_id" class="md-primary" aria-label="单选按钮"
+                                   ng-repeat="type in types track by $index" ng-if="type.type_id">{{type.type_name}}
+                  </md-radio-button>
+                </md-radio-group>
+                <div class="button-row">
+                  <md-button class="text line" aria-label="data control" ng-click="confirmMoveImage(0)">
+                    <span>取消</span>
+                  </md-button>
+                  <md-button class="md-primary text fill progress-button" aria-label="data control"
+                             ng-click="confirmMoveImage(1)" ng-class="{'active':refreshing}">
+                    <img src="/resource/application/progressing.png" class="progress-icon"/>
+                    <span>确定</span>
+                  </md-button>
+                </div>
+              </div>
+            </div>
+          </md-grid-tile>
+        </md-grid-list>
+      </div>
+
+      <nav rop-pagination class="md-pagination" searcher="searcher" index="pageIndex" size="pageSize" total="total" infinite="infinite"></nav>
+    </div>
+    <div class="app-loading" ng-if="refreshing">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>
+
+<md-button class="md-fab rop-fab md-primary md-whiteframe-1dp" aria-label="fab" ng-if="(mode == 0) && !loading"
+           ng-click="enterMode()">
+  <md-icon md-svg-src="image:ic_palette_24px"></md-icon>
+  <span class="text">素材管理</span>
+</md-button>
+
+

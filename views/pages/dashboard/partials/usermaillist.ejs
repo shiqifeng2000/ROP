@@ -1,0 +1,69 @@
+<md-toolbar class="md-primary md-hue-1">
+  <div class="md-toolbar-tools md-toolbar-tools-bottom">
+    <div class="breadcrumb-wrapper">
+      <ol class="breadcrumb md-body-1">
+        <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+        <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+      </ol>
+      <p>{{nav_menu.subEntry.func_desc}}</p>
+    </div>
+    <span flex></span>
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <div class="head">
+    <div class="left">
+      <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}" aria-label="data control" ng-click="reset($event)">
+        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+      </md-button>
+      <md-button ng-click="creatMail($event)" class="md-raised md-primary menu-button" aria-label="data control" ng-disabled="refreshing || loading" ng-if="::columns&&validateBtnRole('btnInsert')">
+        <md-icon class="" md-svg-icon="content:ic_add_circle_outline_24px"></md-icon>
+        <span>添加邮箱</span>
+      </md-button>
+      <md-menu class="md-dropdown dark" md-offset="1 50" >
+        <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-3" md-theme="dracular" aria-label="data control" ng-disabled="refreshing || loading || !tableData._select">
+          <span>操作</span>
+          <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+        </md-button>
+        <md-menu-content class="md-dropdown-content dark md-primary md-hue-3" md-theme="dracular">
+          <md-menu-item ng-if="::columns && validateBtnRole('btnUpdate')"><md-button ng-click="editMail($event)">修改</md-button></md-menu-item>
+          <md-menu-item ng-if="::columns && validateBtnRole('btnDelete')"><md-button ng-click="deleteMail()">删除</md-button></md-menu-item>
+          <md-menu-item><md-button ng-click="showLog($event,tableData._select.mail_id)">日志</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <form class="search-wrapper" ng-submit="research()">
+        <div class="search-group">
+          <button type="submit">
+            <md-icon class="md-primary" md-svg-icon="action:ic_search_24px" ng-click="research()"></md-icon>
+          </button>
+          <input type="text" class="searcher" ng-model="keyword" placeholder="请输入关键字..."/>
+        </div>
+      </form>
+      <md-menu class="md-dropdown cool" md-offset="1 50" style="display: none">
+        <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular" aria-label="data control">
+          <span ng-bind="currentCat && currentCat.name || '全部'"></span>
+          <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+        </md-button>
+        <md-menu-content class="md-dropdown-content cool" >
+          <md-menu-item ng-repeat="cat in catList track by $index">
+            <md-button ng-click="selectCat(cat)">{{cat.name}}</md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
+    <span flex></span>
+    <!--
+        <div class="right">
+          <a target="_blank" class="readmore">
+            邮箱管理
+          </a>
+        </div>
+    -->
+  </div>
+  <div class="body">
+    <rop-datatable cols="columns" data="tableData" searcher="searcher" index="pageIndex" size="pageSize" total="total"/>
+    <div class="app-loading" ng-if="refreshing">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</md-content>

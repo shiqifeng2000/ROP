@@ -1,0 +1,269 @@
+<md-toolbar class="md-primary md-hue-1">
+    <div class="md-toolbar-tools md-toolbar-tools-bottom">
+        <div class="breadcrumb-wrapper">
+            <ol class="breadcrumb md-body-1">
+                <li class=""><a href="javascript:"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+                <li class="active"><a href="javascript:">{{nav_menu.subEntry.sub_func_name}}</a></li>
+            </ol>
+            <p>{{nav_menu.subEntry.func_desc}}</p>
+        </div>
+        <span flex></span>
+
+    </div>
+</md-toolbar>
+<md-content class="md-padding" ng-show="mode === 0">
+    <div class="head">
+        <div class="left">
+            <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}"
+                       aria-label="data control" ng-click="reset($event)">
+                <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+            </md-button>
+            <md-menu class="md-dropdown cool" md-offset="1 50">
+                <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular"
+                           aria-label="data control" ng-disabled="refreshing || !userList">
+                    <span ng-bind="currentUser && currentUser.user_name || '全部用户'"></span>
+                    <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                </md-button>
+                <md-menu-content class="md-dropdown-content cool">
+                    <md-menu-item ng-repeat="user in userList track by $index">
+                        <md-button ng-click="selectUser(user)">{{user.user_name}}</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <md-menu class="md-dropdown cool" md-offset="1 50">
+                <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular"
+                           aria-label="data control" ng-disabled="refreshing || !prodList">
+                    <span ng-bind="currentProd && currentProd.product_name || '全部产品'"></span>
+                    <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                </md-button>
+                <md-menu-content class="md-dropdown-content cool">
+                    <md-menu-item ng-repeat="prod in prodList track by $index">
+                        <md-button ng-click="selectProd(prod)">{{prod.product_name}}</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+        <span flex></span>
+        <div class="right">
+            <md-button class="md-raised md-primary text fill" aria-label="data control" ng-click="goToNextStep()">
+                <span>产品授权</span>
+            </md-button>
+        </div>
+    </div>
+    <div class="body">
+        <div class="datatable-wrapper">
+            <table cellspacing="0" class="md-datatable">
+                <thead>
+                <tr>
+                    <th>
+                        <span>开发者名称</span>
+                    </th>
+                    <th>
+                        <span>产品名称</span>
+                    </th>
+                    <th>
+                        <span>充值金额（元）</span>
+                    </th>
+                    <th>
+                        <span>充值调用次数</span>
+                    </th>
+                    <th class="sort">
+                        <span>产品授权时间</span>
+                        <md-button class="md-icon-button" ng-click="sort()" aria-label="sorter">
+                            <md-icon ng-if="sort_flag == '1'" class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                            <md-icon ng-if="sort_flag == '0'" class="" md-svg-icon="navigation:ic_arrow_drop_up_24px"></md-icon>
+                        </md-button>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="data in data_list track by $index">
+                    <td>
+                        <span ng-bind="data.user_name"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="data.product_name"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="data.price_all"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="data.amount_all"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="data.create_time"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <nav rop-pagination class="md-pagination" searcher="searcher" index="pageIndex" size="pageSize"
+                 total="total"></nav>
+            <div class="app-loading" ng-if="refreshing">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </div>
+        </div>
+    </div>
+</md-content>
+<md-content class="md-padding" ng-show="mode === 1">
+    <div class="content">
+        <div class="spliter">
+            <div class="head">
+                <div class="left">
+                    <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':loading || refreshing}"
+                               aria-label="data control" ng-click="resetCharge($event)">
+                        <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+                    </md-button>
+                    <h5>选择开发者</h5>
+                </div>
+                <span flex></span>
+                <div class="right">
+                    <form class="search-wrapper" ng-submit="researchChargeUser()">
+                        <div class="search-group">
+                            <button type="submit">
+                                <md-icon class="md-primary" md-svg-icon="action:ic_search_24px"
+                                         ng-click="researchChargeUser()"></md-icon>
+                            </button>
+                            <input type="text" class="searcher" ng-model="chargeUserKeyWord"
+                                   placeholder="请输入开发者名称......" ng-change="researchChargeUser()"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="body">
+                <div class="header-container">
+                    <table cellspacing="0" class="md-datatable fixed">
+                        <thead>
+                        <tr>
+                            <th><span>选择</span></th>
+                            <th><span>选择需要授权的开发者</span></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <md-radio-group class="scroller" md-virtual-repeat-container md-auto-shrink="true"
+                                md-top-index="topIndex" ng-model="chargeUserList._select">
+                    <table cellspacing="0" class="md-datatable"
+                           ng-style="{'width':(minify() || mini) ? 'calc((100vw - 96px) / 3)':'calc((100vw - 248px) / 3)'}">
+                        <tbody>
+                        <tr md-virtual-repeat="user in chargeUserList"
+                            ng-class="{'selected': (chargeUserList._select === user)}"
+                            ng-click="selectChargeUser(user)">
+                            <td>
+                                <md-radio-button ng-value="user" class="md-primary center" aria-label="单选按钮"
+                                                 ng-checked="chargeUserList._select === user"></md-radio-button>
+                            </td>
+                            <td>
+                                <p ng-bind="user.user_name"></p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </md-radio-group>
+                <div class="app-loading" ng-if="refreshingUser">
+                    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                </div>
+            </div>
+        </div>
+        <div class="spliter">
+            <div class="head">
+                <div class="left">
+                    <h5>选择产品</h5>
+                </div>
+                <span flex></span>
+                <div class="right">
+                    <form class="search-wrapper" ng-submit="researchChargeProd()">
+                        <div class="search-group">
+                            <button type="submit">
+                                <md-icon class="md-primary" md-svg-icon="action:ic_search_24px"
+                                         ng-click="researchChargeProd()"></md-icon>
+                            </button>
+                            <input type="text" class="searcher" ng-model="chargeProdKeyWord" placeholder="请输入产品名称......"
+                                   ng-change="researchChargeProd()"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="body">
+                <form name="chargeForm" class="table-wrapper" autocomplete="off">
+                    <div class="header-container">
+                        <table cellspacing="0" class="md-datatable fixed">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <span>选择</span>
+                                </th>
+                                <th>
+                                    <span>产品名称</span>
+                                </th>
+                                <th>
+                                    <span>产品价格</span>
+                                </th>
+                                <th>
+                                    <span>授权倍数</span>
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="scroller">
+                        <table cellspacing="0" class="md-datatable" style="border-top:none"
+                               ng-style="{'width':(minify() || mini) ? 'calc((100vw - 96px) * 2 / 3)':'calc((100vw - 248px) * 2 / 3)'}">
+                            <tbody>
+                            <tr ng-repeat="prod in chargeProdList track by $index">
+                                <td>
+                                    <md-checkbox ng-model="prod.checked" ng-init="prod.checked = '0'"
+                                                 aria-label="Checkbox 1"
+                                                 ng-true-value="'1'" ng-false-value="'0'"
+                                                 class="md-primary center"
+                                                 ng-change="prod.count = (prod.checked === '1' ? (prod.count? prod.count : 1) : prod.count)"></md-checkbox>
+                                </td>
+                                <td class="blend-wrapper">
+                                    <span ng-bind="prod.product_name"></span>
+                                </td>
+                                <td class="blend-wrapper">
+                                    <md-menu class="md-dropdown cool" md-offset="1 50">
+                                        <md-button ng-click="$mdOpenMenu($event)"
+                                                   class="md-raised md-primary md-hue-1" md-theme="dracular"
+                                                   aria-label="data control"
+                                                   ng-disabled="refreshing || !prod.price_list"
+                                                   ng-init="prod.priceResult = prod.price_list[0]"><span
+                                                    ng-bind="(prod.priceResult) ? ('价格：' + prod.priceResult.price) : (prod.price_list.length > 0 ? '价格：' + prod.price_list[0].price: '')"></span>
+                                            <span ng-bind="(prod.priceResult) ? ('数量： ' + prod.priceResult.amount) : (prod.price_list.length > 0 ?'数量： ' + prod.price_list[0].amount : '')"></span>
+                                            <md-icon class=""
+                                                     md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                                        </md-button>
+                                        <md-menu-content class="md-dropdown-content cool charge-option">
+                                            <md-menu-item ng-repeat="price in prod.price_list track by $index">
+                                                <md-button ng-click="prod.priceResult = price"
+                                                           aria-label="data control"><span
+                                                            ng-bind="'价格：' + price.price"></span><span
+                                                            ng-bind="'数量：' + price.amount"></span></md-button>
+                                            </md-menu-item>
+                                        </md-menu-content>
+                                    </md-menu>
+                                </td>
+                                <td class="blend-wrapper">
+                                    <input type="text" class="blend" maxlength="5" name="interval{{$index}}"
+                                           ng-model="prod.count" ng-pattern="'([1-9]\\d{0,4})'" ng-hide="prod.checked === '0'"/>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="app-loading" ng-if="refreshingProd">
+                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="button-row">
+        <md-button class="md-raised text line" aria-label="data control" ng-click="backToFistStep()">
+            <span>取消</span>
+        </md-button>
+        <md-button class="md-raised md-primary text fill" aria-label="data control" ng-click="showResult($event)">
+            <span>授权预览</span>
+        </md-button>
+    </div>
+</md-content>

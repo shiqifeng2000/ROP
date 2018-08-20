@@ -1,0 +1,34 @@
+<!--<div class="header">
+    <h4 ng-bind="detail.doc_name"></h4>
+    <span flex></span>
+    <h5 class=" pr-10"><small class="pl-10"><%= __('Welcome.docdetail.views') %><span ng-bind="detail.view_count"></span></small></h5>
+    <md-button class="md-raised md-primary text fill cliper" aria-label="Copy Text" ng-click="triggerClip()" data-clipboard-text="{{docUrl}}" >
+        <span ng-bind="clipboardHints"></span>
+    </md-button>
+</div>-->
+<!--<div class="content">
+    <md-content class="details" compile content="detail.doc_content" imageresizer="imageresizer"></md-content>
+    <md-content ng-repeat="content in detail.content_list track by $index" class="details" compile content="content.content_desc" imageresizer="imageresizer"></md-content>
+&lt;!&ndash;    <div id="{{'content_'+content.sort_id}}" class="content-list" ng-repeat="content in detail.content_list track by $index">
+        <h5 ng-bind="content.content_title" class="anchor"></h5>
+        <div compile content="content.content_desc" imageresizer="imageresizer"></div>
+    </div>&ndash;&gt;
+
+    &lt;!&ndash;<md-list ng-cloak>
+      <md-list-item ng-repeat-start="content in detail.content_list track by $index" class="title-list">
+        <h3 class="title" ng-bind="content.content_title"></h3>
+      </md-list-item>
+      <md-content class="details" ng-repeat-end compile content="content.content_desc" imageresizer="imageresizer"></md-content>
+    </md-list>&ndash;&gt;
+</div>-->
+<!--
+<div class="app-loading" ng-if="refreshing">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
+-->
+
+
+<md-content class="details" compile content="detail.doc_content" imageresizer="imageresizer" ng-if="detail.doc_content && detail.doc_content !== '<div>  <br /> </div>' "></md-content>
+
+<md-subheader ng-repeat-start="content in detail.content_list track by $index" class="md-no-sticky md-primary">{{content.content_title}}</md-subheader>
+<md-content ng-repeat-end class="details" compile content="content.content_desc" imageresizer="imageresizer"></md-content>

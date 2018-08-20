@@ -1,0 +1,232 @@
+<md-toolbar class="md-primary md-hue-1">
+    <div class="md-toolbar-tools md-toolbar-tools-bottom">
+        <div class="breadcrumb-wrapper">
+            <ol class="breadcrumb md-body-1">
+                <li class=""><a href="javascript:" ng-click="resetDoc()"><img ng-if="nav_menu.entry.func_img" ng-src="{{nav_menu.entry.func_img}}" />{{nav_menu.entry.func_name}}</a></li>
+                <li class="active"><a href="javascript:" ng-click="resetDoc()">{{nav_menu.subEntry.sub_func_name}}</a></li>
+            </ol>
+            <p>{{nav_menu.subEntry.func_desc}}</p>
+        </div>
+        <span flex></span>
+
+    </div>
+</md-toolbar>
+<md-content class="md-padding" ng-if="mode == 0">
+
+    <div class="head">
+        <div class="left">
+            <md-button class="md-raised md-primary panel-icon" ng-class="{'refreshing':refreshing}" aria-label="data control" ng-click="reset($event)">
+                <md-icon class="" md-svg-icon="action:ic_cached_24px"></md-icon>
+            </md-button>
+
+            <md-button class="md-raised md-primary menu-button" aria-label="data control" ng-click="addMode()" ng-disabled="::!canInsert()">
+                <md-icon class="" md-svg-icon="content:ic_add_circle_outline_24px"></md-icon>
+                <span>添加多环境</span>
+            </md-button>
+
+            <md-menu class="md-dropdown dark" md-offset="1 50" >
+                <md-button ng-click="$mdOpenMenu($event)" class="md-raised md-primary md-hue-3" md-theme="dracular" aria-label="data control" ng-disabled="!tableData._select">
+                    <span>操作</span>
+                    <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                </md-button>
+                <md-menu-content class="md-dropdown-content dark md-primary md-hue-3" md-theme="dracular">
+                    <md-menu-item ng-if="validateBtnRole('btnUpdate')" ng-show="tableData._select"><md-button ng-click="updateMode(tableData._select.eid)">修改</md-button></md-menu-item>
+                    <md-menu-item ng-if="validateBtnRole('btnUpdate')" ng-show="tableData._select"><md-button ng-click="delete(tableData._select.eid)">删除</md-button></md-menu-item>
+                    <md-menu-item ng-show="tableData._select"><md-button ng-click="showLog($event,tableData._select.eid)">日志</md-button></md-menu-item>
+                    <md-menu-item ng-show="tableData._select"><md-button ng-click="export(tableData._select.eid)">导出</md-button></md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <form class="search-wrapper" ng-submit="research()">
+                <div class="search-group">
+                    <button type="submit">
+                        <md-icon class="md-primary" md-svg-icon="action:ic_search_24px" ng-click="research()"></md-icon>
+                    </button>
+                    <input type="text" class="searcher" ng-model="$parent.ename" placeholder="请输入关键字......"/>
+                </div>
+            </form>
+        </div>
+        <div flex></div>
+        <div class="right">
+            <a href="http://open.rongcapital.cn/welcome/document/6dc0cf9c-c405-46f7-8dd6-281195652dce" target="_blank" class="readmore">多环境管理说明</a>
+        </div>
+    </div>
+    <div class="body">
+        <rop-datatable cols="columns" data="$parent.tableData" searcher="$parent.searcher" index="$parent.pageIndex" size="$parent.pageSize" total="$parent.total" multiple="batch"/>
+        <!--<div class="app-loading" ng-if="refreshing">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>-->
+        <div class="app-loading" ng-if="refreshing">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+    </div>
+</md-content>
+
+<md-content class="md-padding updater simple" ng-show="mode == 1">
+    <div class="stepper-wrapper">
+        <rop-stepper index="step" steps="steps" />
+    </div>
+
+    <form name="updaterForm" autocomplete="off" novalidate ng-submit="locateNext($event)">
+        <div class="step-1" ng-if="step == 0">
+            <div class="wrapper">
+                <table cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <th>
+                            <span class="dot-required">环境名称</span>
+                        </th>
+                        <td colspan="2" class="blend-wrapper">
+                            <input type="text" class="blend" name="api_title" placeholder="请输入环境名称" ng-model="updater.detail.ename" ng-disabled="updater._forView" maxlength="50" required/>
+                        </td>
+                        <th>
+                            <span>备注</span>
+                        </th>
+                        <td colspan="2" class="blend-wrapper">
+                            <input type="text" class="blend" name="api_title_en" placeholder="请输入备注" ng-model="updater.detail.remark" ng-disabled="updater._forView" maxlength="50"/>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="button-row">
+                <md-button class="md-raised text line" aria-label="data control" ng-click="cancelStep()">
+                    <span>取消</span>
+                </md-button>
+                <md-button class="md-raised md-primary md-hue-3 text" aria-label="data control" ng-click="previousStep()" md-theme="dracular" disabled="">
+                  <span>上一步</span>
+                </md-button>
+                <md-button class="md-raised md-primary text fill" aria-label="data control" ng-click="nextStep()">
+                    <span>下一步</span>
+                </md-button>
+            </div>
+        </div>
+        <div class="step-2" ng-if="step == 1">
+            <div class="wrapper">
+                <table cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <th>
+                            <span class="dot-required">克隆环境</span>
+                        </th>
+                        <td>
+                            <rop-menu class="md-dropdown cool" md-offset="1 50" md-position-mode="target-right target">
+                              <md-button ng-click="$ropOpenMenu($event)" class="md-raised md-primary md-hue-1" md-theme="dracular" aria-label="data control">
+                                <span ng-bind="updater.detail.selectedEnv.ename"></span>
+                                <md-icon class="" md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                              </md-button>
+                              <md-menu-content class="md-dropdown-content cool has-searcher">
+                                <md-menu-item class="searcher">
+                                  <md-input-container md-no-float class="md-block" md-theme="default">
+                                    <input type="text" ng-model="keyword" placeholder="请输入环境名称......"/>
+                                  </md-input-container>
+                                </md-menu-item>
+                                <md-menu-item ng-repeat="env in updater.detail.environment_list track by $index" ng-if="keyword ? (env.ename.indexOf(keyword) != -1) : true">
+                                  <md-button ng-click="selectEnv(env)" aria-label="data control">{{env.ename}}</md-button>
+                                </md-menu-item>
+                              </md-menu-content>
+                            </rop-menu>
+                        </td>
+                        <td class="control">
+                            <md-button class="md-raised md-primary menu-button" aria-label="data control" ng-disabled="!updater.detail.selectedEnv || refreshing" ng-click="cloneEnv()">
+                                <md-icon md-svg-icon="content:ic_content_copy_24px"></md-icon>
+                                <span>克隆</span>
+                            </md-button>
+                        </td>
+                        <th>
+                            <span>URL地址</span>
+                        </th>
+                        <td class="blend-wrapper">
+                            <input type="text" class="blend" name="api_title2" placeholder="请输入URL地址" ng-model="updater.detail.url" ng-disabled="updater._forView" maxlength="500" />
+                        </td>
+                        <td class="control">
+                            <md-button class="md-raised md-primary menu-button" aria-label="data control" ng-click="unifyEnv()">
+                                <md-icon md-svg-icon="action:ic_touch_app_24px"></md-icon>
+                                <span>一键设置</span>
+                            </md-button>
+                        </td>
+                        <th>
+                            <span>搜索</span>
+                        </th>
+                        <td>
+                            <div class="search-wrapper">
+                                <div class="search-group">
+                                    <button type="submit">
+                                        <md-icon class="md-primary" md-svg-icon="action:ic_search_24px" ng-click="$parent.locateNext($event)"></md-icon>
+                                    </button>
+                                    <input type="text" class="searcher" ng-model="$parent.keyword" placeholder="请输入API名称或url地址" ng-change="$parent.locate($event)"/>
+                                </div>
+                            </div>
+                        </td>
+                        <th>
+                          <span style="white-space: nowrap">开启URL校验</span>
+                        </th>
+                        <td>
+                          <div class="switch-wrapper">
+                            <div class="switch">
+                              <input type="checkbox" id="onoffswitch" ng-model="$parent.enableVerification" ng-disabled="loading || refreshing"/>
+                              <label for="onoffswitch">
+                              </label>
+                            </div>
+                          </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="datatable-wrapper">
+                <div class="message-bar" ng-if="invalidURLInfo">
+                    <span flex ng-bind="invalidURLInfo.msg"></span>
+                    <md-icon md-svg-icon="/resource/application/md.svg" ng-if="invalidURLInfo.sub_msg" ng-click="locateURL()"></md-icon>
+                </div>
+                <table cellspacing="0" class="md-datatable">
+                    <thead>
+                    <tr>
+                        <th>
+                            <span>API名称</span>
+                        </th>
+                        <th>
+                            <span>URL地址</span>
+                            <md-icon class="" md-svg-icon="action:ic_info_24px" style="right: auto; left: 70px;"><md-tooltip md-direction="down">供应商REST API(用于UAT测试)的URL</md-tooltip></md-icon>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="" md-virtual-repeat-container md-auto-shrink="true" md-top-index="$parent.topIndex" ng-class="{'shrink':invalidURLInfo}">
+                    <input type="url" name="originalApi_{{$index}}" ng-repeat="api in updater.detail.api_list track by $index" ng-model="api.api_url" maxlength="500" required style="display: none"/>
+                        <table cellspacing="0" class="md-datatable">
+                            <tbody>
+                            <tr md-virtual-repeat="api in updater.detail.api_list" class="repeated-item" ng-class="{'invalid':invalidURLInfo && (api.api_url == invalidURLInfo.sub_msg),'focused':(api._selected == 2) || invalidURLInfo && (api.api_url == invalidURLInfo.sub_msg)}">
+                                <td>
+                                    <a ng-href="{{apiRedirect(api.api_name)}}" target="_blank" md-highlight-text="$parent.$parent.keyword">{{api.api_name}}</a>
+                                    <!--<a ng-if="api._highlightSelection" ng-bind-html="api._highlightSelection | unescapeHtml | trusthtml " ng-href="{{apiRedirect(api.api_name)}}" target="_blank"></a>-->
+                                </td>
+                                <td class="blend-wrapper">
+                                    <input type="url" class="blend" name="api_{{$index}}" placeholder="请输入URL地址" ng-model="api.api_url" ng-disabled="updater._forView" maxlength="500" required ng-show="enableVerification"/>
+                                    <input type="text" class="blend" name="api_{{$index}}" placeholder="请输入URL地址" ng-model="api.api_url" ng-disabled="updater._forView" maxlength="500" required ng-show="!enableVerification"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </div>
+                <div class="app-loading" ng-if="refreshing">
+                    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                </div>
+            </div>
+
+            <div class="button-row">
+                <md-button class="md-raised text line" aria-label="data control" ng-click="cancelStep()">
+                    <span>取消</span>
+                </md-button>
+                <md-button class="md-raised md-primary md-hue-3 text" aria-label="data control" ng-click="previousStep()" md-theme="dracular">
+                    <span>上一步</span>
+                </md-button>
+                <md-button class="md-raised md-primary text fill" aria-label="data control" ng-click="saveEnv()">
+                    <span>保存</span>
+                </md-button>
+            </div>
+        </div>
+    </form>
+</md-content>

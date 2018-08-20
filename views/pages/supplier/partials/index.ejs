@@ -1,0 +1,109 @@
+<div class="transitionEndBubbleStop" ng-style="{'background':(!user_info || !user_info.user_image || !user_info.user_image.length) && 'url(/resource/supplier/banner1.jpg) no-repeat center/cover'}">
+  <div class="swiper-container" id="banner">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" ng-repeat="banner in user_info.user_image track by $index">
+        <div class="swiper-lazy-preloader"></div>
+        <div data-background="{{banner.image_url || '/resource/supplier/banner1.jpg'}}" class="swiper-lazy bg" >
+          <div class="inner">
+            <div class="editor-wrapper" ng-bind-html="banner.image_desc | unescapeHtml | trusthtml"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+
+<md-content class="icon-row" ng-if="::user_info && (user_info.feature_model_flag == '1')">
+  <md-grid-list
+    md-row-height="60:60" md-cols="60"
+    md-gutter="24px">
+
+    <md-grid-tile md-rowspan="{{calcFeatureColspan()}}" md-colspan="{{calcFeatureColspan()}}"
+                  ng-repeat="tile in user_info.user_feature track by $index">
+      <label class="image-uploader"
+             ng-style="{'background':('url('+(tile.feature_img_url || '/resource/supplier/feature1.png')+') no-repeat center/cover')}">
+      </label>
+      <h4 class="title" ng-bind="tile.feature_title"></h4>
+      <p class="description" ng-bind="tile.feature_desc"></p>
+    </md-grid-tile>
+  </md-grid-list>
+</md-content>
+
+<div class="aboutus-row" ng-if="::user_info && (user_info.about_model_flag == '1')" ng-style="{'background-image':user_info.about_img_url ? 'url('+user_info.about_img_url+')' : 'url(/resource/supplier/banner.jpg)', 'background-attachment': (browserType == 'Chrome45') ? '': 'fixed'}">
+  <md-grid-list md-row-height="4:4" md-cols="4">
+    <md-grid-tile md-rowspan="1" md-colspan="{{user_info.notice_list && user_info.notice_list.length?3:4}}" class="aboutus">
+      <div class="aboutus-content" ng-bind-html="user_info.about_desc | unescapeHtml | trusthtml"></div>
+      <div class="bottom" ng-if="user_info && user_info.website">
+        <md-button class="md-primary md-raised md-radius-button-1" aria-label="Settings" ng-href="{{user_info.website}}" target="_blank">
+          <%= __('Supplier.index.checkdetails') %>
+        </md-button>
+      </div>
+    </md-grid-tile>
+
+    <md-grid-tile md-rowspan="1" md-colspan="1" class="news" ng-if="user_info.notice_list && user_info.notice_list.length">
+      <h2><%= __("Supplier.index.whatsup") %></h2>
+      <nav>
+        <ul class="nav nav-stacked">
+          <li ng-repeat="notice in user_info.notice_list track by $index">
+            <a href="javascript:" ng-click="go('info')" ng-bind="notice.notice_title">
+              <span class="pull-right ml-20"><i class="fa fa-angle-right fa-lg"></i></span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </md-grid-tile>
+  </md-grid-list>
+</div>
+
+<div class="stat-row" ng-if="::user_info && (user_info.api_model_flag == '1')">
+  <md-grid-list md-row-height="3:3" md-cols="3" md-gutter="8px">
+    <md-grid-tile md-rowspan="1" md-colspan="3">
+      <div class="item">
+        <img src="/resource/supplier/apikfz.png"/>
+        <h1 class="md-display-3"><span class="timer digit">{{user_info.isv_count}}</span></h1>
+        <p class="md-title"><%= __("Supplier.index.users") %></p>
+      </div>
+      <div class="item">
+        <img src="/resource/supplier/sc.png"/>
+        <h1 class="md-display-3"><span class="timer digit">{{user_info.fav_count}}</span></h1>
+        <p class="md-title"><%= __("Supplier.index.bookmarked") %></p>
+      </div>
+      <div class="item">
+        <img src="/resource/supplier/kfaipsl.png"/>
+        <h1 class="md-display-3"><span class="timer digit">{{user_info.api_count}}</span></h1>
+        <p class="md-title"><%= __("Supplier.index.apinumbers") %></p>
+      </div>
+    </md-grid-tile>
+  </md-grid-list>
+</div>
+
+<div class="above-footer">
+    <div class="dev-row" ng-if="::user_info && (user_info.isv_model_flag == '1')">
+      <h1 class="section-title"><%= __("Supplier.index.successfuldeveloper")%></h1>
+      <div class="transitionEndBubbleStop" style="perspective: 960px">
+        <div class="swiper-container" id="isv" style="transform: rotateX(20deg)">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide md-whiteframe-7dp" ng-repeat="isv in user_info.isv_list track by $index">
+              <h3 class="title" ng-bind="isv.user_name"></h3>
+              <!--<p class="text" >这里是描述性文字这 里是描述性文字 这里是描述性文字这里是描述性 文字这里是描述性文字这 里是描述性文字</p>-->
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </div>
+    <div layout="column" layout-align="center" class="above-footer-row" ng-if="::user_info">
+        <h1 class="section-title">联系我们</h1>
+        <ul class="list-icons">
+            <li ng-if="::user_info && user_info.address"><a href="javascript:"><i class="fa fa-map-marker pr-10"></i> {{user_info.address}}</a></li>
+            <li ng-if="::user_info && user_info.tel"><a href="javascript:"><i class="fa fa-phone pr-10"></i> +86 {{user_info.tel}}</a></li>
+            <li ng-if="::user_info && user_info.fax"><a href="javascript:"><i class="fa fa-fax pr-10"></i> {{user_info.fax}}</a></li>
+            <li ng-if="::user_info && user_info.email"><a href="javascript:"><i class="fa fa-envelope-o pr-10"></i> {{user_info.email}} </a></li>
+            <li ng-if="::user_info && user_info.qq"><a href="javascript:"><i class="fa fa-qq pr-10"></i> {{user_info.qq}}</a></li>
+            <li ng-if="::user_info && user_info.weixin"><a href="javascript:"><i class="fa fa-weixin pr-10"></i> {{user_info.weixin}}</a></li>
+            <li ng-if="::user_info && user_info.weibo"><a href="javascript:"><i class="fa fa-weibo pr-10"></i> {{user_info.weibo}}</a></li>
+        </ul>
+    </div>
+</div>
+<% include ./footer.ejs %>

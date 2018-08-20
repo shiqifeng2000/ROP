@@ -1,0 +1,371 @@
+<div class="content-head">
+  <div class="header-row">
+    <h4>
+      <strong>{{apiDetails.api_name?apiDetails.api_name:'<%= __('Supplier.api.apiname') %>'}}</strong>
+      <md-button ng-show="apiDetails.api_id" ng-disabled="!copyToClipboard"
+                 class="md-raised md-primary fadding cliper ml-20"
+                 data-clipboard-text="{{copyToClipboard(apiDetails)}}">
+        <md-icon md-svg-icon="content:ic_content_copy_24px"></md-icon>
+        <span>{{clipboardHints}}</span>
+      </md-button>
+    </h4>
+  </div>
+  <div class="info-row">
+    <div class="item">
+      <span class="link-color"><strong><%= __('Supplier.api.apititle') %>:</strong></span>
+      <div>{{apiDetails.api_title}}</div>
+    </div>
+    <div class="item">
+      <span class="link-color"><strong>单据编码:</strong></span>
+      <div>{{apiDetails.api_code?apiDetails.api_code:''}}</div>
+    </div>
+    <div class="item">
+      <span class="link-color"><strong><%= __('Supplier.api.apicategory') %>:</strong></span>
+      <div>{{apiDetails.cat_name?apiDetails.cat_name:''}}</div>
+    </div>
+    <div class="item">
+      <span class="link-color"><strong><%= __('Supplier.api.apidescription') %>:</strong></span>
+      <div style="overflow: hidden;white-space: normal;text-overflow: inherit;">{{apiDetails.api_desc}}</div>
+    </div>
+  </div>
+</div>
+<div class="md-expand md-collapsing" ng-class="{'active':apiDetails.sysparam_expanded}">
+  <md-toolbar>
+    <div class="md-toolbar-tools" ng-click="(apiDetails.sysparam_expanded = !apiDetails.sysparam_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5><span><%= __('Supplier.api.apisysparam') %></span></h5>
+    </div>
+  </md-toolbar>
+  <md-content class="">
+    <table class="md-datatable">
+      <thead>
+      <tr>
+        <th><%= __('Supplier.api.apisysparam.name') %></th>
+        <th style="text-align: center"><%= __('Supplier.api.apisysparam.isrequired') %></th>
+        <th style="text-align: center"><%= __('Supplier.api.apisysparam.paramtype') %></th>
+        <th><%= __('Supplier.api.apisysparam.paramdes') %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="param in apiDetails.sysparam track by $index">
+        <td>
+          {{param.param_name}}
+        </td>
+        <td style="text-align: center">
+          {{param.is_must}}
+        </td>
+        <td style="text-align: center">
+          {{param.param_type}}
+        </td>
+        <td ng-bind-html="param.param_desc | unescapeHtml | trusthtml" style="line-height: 20px;padding: 8px 16px;"></td>
+      </tr>
+      </tbody>
+    </table>
+  </md-content>
+</div>
+<div class="md-expand md-collapsing"
+     ng-class="{'active':apiDetails.request_parameter_type_expanded}" ng-if="apiDetails.call_flag == '1'">
+  <md-toolbar class="">
+    <div class="md-toolbar-tools"
+         ng-click="(apiDetails.request_parameter_type_expanded = !apiDetails.request_parameter_type_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5>
+        <span><%= __('Supplier.api.requestparam') %></span>
+      </h5>
+    </div>
+  </md-toolbar>
+  <md-content class="">
+    <md-list>
+      <md-list-item class="secondary-button-padding">
+        <p>{{apiDetails.request_parameter_desc}}</p>
+        <md-button class="md-secondary"><%= __('Supplier.api.requestparam.desc') %></md-button>
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-list-item class="secondary-button-padding">
+        <p>{{apiDetails.request_parameter_type}}</p>
+        <md-button class="md-secondary"><%= __('Supplier.api.requestparam.type') %></md-button>
+      </md-list-item>
+    </md-list>
+  </md-content>
+</div>
+<div class="md-expand md-collapsing"
+     ng-class="{'active':apiDetails.request_parameter_example_expanded}" ng-if="apiDetails.call_flag == '1'">
+  <md-toolbar class="">
+    <div class="md-toolbar-tools"
+         ng-click="(apiDetails.request_parameter_example_expanded = !apiDetails.request_parameter_example_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5>
+        <span><%= __('Supplier.api.requestexample') %></span>
+      </h5>
+    </div>
+  </md-toolbar>
+  <md-content>
+    <p class="text">{{apiDetails.request_parameter_example}}</p>
+  </md-content>
+</div>
+<div class="md-expand "
+     ng-class="{'active':apiDetails.response_parameter_desc_expanded}" ng-if="apiDetails.call_flag == '1'">
+  <md-toolbar class="">
+    <div class="md-toolbar-tools"
+         ng-click="(apiDetails.response_parameter_desc_expanded = !apiDetails.response_parameter_desc_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5>
+        <span><%= __('Supplier.api.responseparam') %></span>
+      </h5>
+    </div>
+  </md-toolbar>
+  <md-content>
+    <p class="text">{{apiDetails.response_parameter_desc}}</p>
+  </md-content>
+</div>
+<div class="md-expand "
+     ng-class="{'active':apiDetails.response_parameter_example_expanded}" ng-if="apiDetails.call_flag == '1'">
+  <md-toolbar class="">
+    <div class="md-toolbar-tools"
+         ng-click="(apiDetails.response_parameter_example_expanded = !apiDetails.response_parameter_example_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5>
+        <span><%= __('Supplier.api.responseexample') %></span>
+      </h5>
+    </div>
+  </md-toolbar>
+  <md-content class="">
+    <p class="text">{{apiDetails.response_parameter_example}}</p>
+  </md-content>
+</div>
+<div class="md-expand " ng-class="{'active':apiDetails.busparam_expanded}"
+     ng-if="apiDetails.call_flag == '0'">
+  <md-toolbar class="">
+    <div class="md-toolbar-tools" ng-click="(apiDetails.busparam_expanded = !apiDetails.busparam_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5>
+        <span><%= __('Supplier.api.apibusparam') %></span>
+      </h5>
+    </div>
+  </md-toolbar>
+  <md-content>
+    <table class="md-datatable">
+      <thead>
+      <tr>
+        <th><%= __('Supplier.api.apibusparam.name') %></th>
+        <th style="text-align: center"><%= __('Supplier.api.apibusparam.isrequired') %></th>
+        <th style="text-align: center"><%= __('Supplier.api.apibusparam.paramtype') %></th>
+        <th><%= __('Supplier.api.apibusparam.paramexample') %></th>
+        <th><%= __('Supplier.api.apibusparam.default') %></th>
+        <th><%= __('Supplier.api.apibusparam.paramdes') %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="param in apiDetails.busparam track by $index">
+        <td>
+          {{param.param_name}}
+        </td>
+        <td style="text-align: center">
+          {{param.is_must}}
+        </td>
+        <td style="text-align: center">
+          {{param.param_type}}
+        </td>
+        <td title="{{param.example_value}}">
+          {{param.example_value}}
+        </td>
+        <td>
+          {{param.default_value}}
+        </td>
+        <td ng-bind-html="param.param_desc | unescapeHtml | trusthtml" style="line-height: 20px;padding: 8px 16px;"></td>
+      </tr>
+      </tbody>
+    </table>
+  </md-content>
+</div>
+
+<div class="md-expand " ng-class="{'active':apiDetails.result_expanded}" ng-if="apiDetails.call_flag == '0'">
+  <md-toolbar>
+    <div class="md-toolbar-tools" ng-click="(apiDetails.result_expanded = !apiDetails.result_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5>
+        <span><%= __('Supplier.api.return') %></span>
+      </h5>
+    </div>
+  </md-toolbar>
+  <md-content>
+    <table class="md-datatable">
+      <thead>
+      <tr>
+        <th><%= __('Supplier.api.return.name') %></th>
+        <th style="text-align: center"><%= __('Supplier.api.return.type') %></th>
+        <th style="text-align: center"><%= __('Supplier.api.return.optional') %></th>
+        <th><%= __('Supplier.api.return.example') %></th>
+        <th><%= __('Supplier.api.return.description') %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="param in apiDetails.result track by $index">
+        <td>
+          {{param.param_name}}
+        </td>
+        <td style="text-align: center"
+            ng-init="text = ((param.is_list == '1')?(param.param_type+'[]'):param.param_type)">
+          <a href="javascript:" ng-if="param.is_link == '1'"
+             ng-click="toSubDomain(param.domain_id,apiDetails)">{{text}}</a>
+          <span ng-if="param.is_link == '0'">{{text}}</span>
+        </td>
+        <td style="text-align: center">
+          {{param.is_must}}
+        </td>
+        <td>
+          {{param.example_value}}
+        </td>
+        <td ng-bind-html="param.param_desc | unescapeHtml | trusthtml" style="line-height: 20px;padding: 8px 16px;"></td>
+      </tr>
+      </tbody>
+    </table>
+  </md-content>
+</div>
+<div class="md-expand" ng-class="{'active':apiDetails.return_example_xml_expanded}"
+     ng-show="apiDetails.call_flag == '0'">
+  <md-toolbar class="">
+    <div class="md-toolbar-tools"
+         ng-click="(apiDetails.return_example_xml_expanded = !apiDetails.return_example_xml_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5><span><%= __('Supplier.api.returnexample') %></span></h5>
+    </div>
+  </md-toolbar>
+  <md-content class="" ng-style="{'max-height':apiDetails.return_example_xml_expanded&&('9999px')}">
+    <h5 class="ml-10"><strong><%= __('Supplier.api.returnexample.xml') %>:</strong></h5>
+    <pre id="CanvasXml"
+         style="border-radius: 0; border:1px solid transparent;background: transparent"></pre>
+    <br/>
+    <h5 class="ml-10"><strong><%= __('Supplier.api.returnexample.json') %>:</strong></h5>
+    <pre id="Canvas"
+         style="border-radius: 0; border:1px solid transparent;background: transparent"></pre>
+  </md-content>
+</div>
+<div class="md-expand " ng-class="{'active':apiDetails.error_example_xml_expanded}">
+  <md-toolbar>
+    <div class="md-toolbar-tools"
+         ng-click="(apiDetails.error_example_xml_expanded = !apiDetails.error_example_xml_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5><span><%= __('Supplier.api.error') %></span></h5>
+    </div>
+  </md-toolbar>
+  <md-content ng-style="{'max-height':apiDetails.error_example_xml_expanded&&('9999px')}">
+    <h5 class="ml-10"><strong><%= __('Supplier.api.error.xml') %>:</strong></h5>
+    <pre id="CanvasXmlError"
+         style="border-radius: 0; border:1px solid transparent;background: transparent"></pre>
+    <br/>
+    <h5 class="ml-10"><strong><%= __('Supplier.api.error.json') %>:</strong></h5>
+    <pre id="CanvasError"
+         style="border-radius: 0; border:1px solid transparent;background: transparent"></pre>
+  </md-content>
+</div>
+<div class="md-expand" ng-class="{'active':apiDetails.buserror_expanded}">
+  <md-toolbar>
+    <div class="md-toolbar-tools" ng-click="(apiDetails.buserror_expanded = !apiDetails.buserror_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5><span><%= __('Supplier.api.buserror') %></span></h5>
+    </div>
+  </md-toolbar>
+  <md-content class="">
+    <table class="md-datatable">
+      <thead>
+      <tr>
+        <th><%= __('Supplier.api.buserror.code') %></th>
+        <th><%= __('Supplier.api.buserror.description') %></th>
+        <th><%= __('Supplier.api.buserror.solution') %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="param in apiDetails.buserror track by $index">
+        <td>{{param.error_code}}</td>
+        <td ng-bind-html="param.error_desc | unescapeHtml | trusthtml"></td>
+        <td>{{param.error_solution}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </md-content>
+</div>
+<div class="md-expand" ng-class="{'active':apiDetails.syserror_expanded}">
+  <md-toolbar class="">
+    <div class="md-toolbar-tools" ng-click="(apiDetails.syserror_expanded = !apiDetails.syserror_expanded)">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5><span><%= __('Supplier.api.syserror') %></span></h5>
+    </div>
+  </md-toolbar>
+  <md-content>
+    <table class="md-datatable">
+      <thead>
+      <tr>
+        <th><%= __('Supplier.api.syserror.code') %></th>
+        <th><%= __('Supplier.api.syserror.description') %></th>
+        <th><%= __('Supplier.api.syserror.solution') %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="param in apiDetails.syserror track by $index">
+        <td>{{param.error_code}}</td>
+        <td ng-bind-html="param.error_desc | unescapeHtml | trusthtml"></td>
+        <td>{{param.error_solution}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </md-content>
+</div>
+<div class="md-expand" ng-class="{'active':apiDetails.debug_expanded}">
+  <md-toolbar class="">
+    <div class="md-toolbar-tools" ng-click="apiDetails.debug_expanded = !apiDetails.debug_expanded">
+      <md-button class="md-icon-button expander" aria-label="More">
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+        <md-icon md-svg-icon="content:ic_remove_24px"></md-icon>
+      </md-button>
+      <h5><span><%= __('Supplier.api.apitool') %></span></h5>
+    </div>
+  </md-toolbar>
+  <md-content class="tool-wrapper">
+    <div>
+      <md-button class="md-primary md-raised md-linear-button-2 solid" target="_blank"
+                 ng-href="{{makeDebugUrl(apiDetails.api_id)}}"><%= __('Supplier.api.apitool.debugtool') %></md-button>
+    </div>
+    <div>
+      <md-button class="md-primary md-raised md-linear-button-2 " target="_blank"
+                 ng-href="{{makeSDKUrl()}}"><%= __('Supplier.api.apitool.sdktool') %></md-button>
+    </div>
+  </md-content>
+</div>
+
+<div class="app-loading" ng-if="refreshing">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>

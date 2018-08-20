@@ -1,0 +1,109 @@
+<!--
+
+<div class="sub-frame fadding-if" ui-view  >
+
+</div>
+-->
+<div class="details" ng-show="docId">
+    <md-toolbar class="md-primary md-hue-1 document-navbar">
+        <div class="md-toolbar-tools" >
+            <a href="javascript:" class="category" ng-repeat="root in rootTree track by $index" ng-class="{'active':currentTrunk.cat_id == root.cat_id}" ng-click="checkoutDoc(root,root.cat_list_level_2[0],$event)">
+                <md-icon md-svg-icon="{{($index == 0)?'/resource/welcome/finance-34.svg':(($index == 1)?'/resource/welcome/city-03.svg':(($index == 2)?'/resource/welcome/text-07.svg':'/resource/welcome/others-18.svg'))}}"></md-icon>
+                <span ng-bind="root.cat_name"></span>
+            </a>
+            <span flex></span>
+            <md-button class="md-raised md-primary text fill" aria-label="data control" ng-href="{{'/welcome/debugtool'}}" target="_blank">
+                <span>API测试工具</span>
+            </md-button>
+            <md-button class="md-raised text line" aria-label="data control" ng-href="{{'/welcome/sdktool'}}" target="_blank">
+                <span>SDK下载</span>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-content>
+        <md-sidenav class="md-sidenav-left"  md-is-locked-open="true">
+            <md-content class="md-primary md-hue-1">
+                <div class="md-expand material leftnav" ng-repeat="branch in currentTrunk.cat_list_level_2 track by $index" ng-class="{'active':branch._isOpen}">
+                    <!--<li ng-repeat="branch in pageTrunk.cat_list_level_2 track by $index" class="parent-list-item"
+                        ng-class="{'parentActive' : branch._isOpen}">
+                        <md-button ng-if="branch.doc_id" ng-click="checkoutDoc(trunk, branch, $event)">{{branch.doc_name}}</md-button>
+
+                        <md-button ng-if-start="!branch.doc_id" class="md-button-toggle" ng-click="checkoutDoc(trunk, branch, $event)"
+                                   aria-controls="material-menu-{{branch.cat_id}}" flex layout="row"
+                                   aria-expanded="{{branch._isOpen}}">
+                            {{branch.cat_name}}
+                            <md-icon class="pull-right" md-svg-icon="navigation:ic_expand_more_24px"></md-icon>
+                        </md-button>
+
+                        <ul ng-if-end ng-show="branch._isOpen" class="menu-toggle-list">
+                            <li ng-repeat="leaf in branch.cat_list_level_3 track by $index"
+                                ng-class="{'childActive' : (docId == leaf.doc_id)}">
+                                <md-button ng-class="" ng-click="checkoutDoc(trunk, branch, $event)" >
+                                    {{leaf.doc_name}}
+                                </md-button>
+                            </li>
+                        </ul>
+                    </li>-->
+                    <md-toolbar class="md-primary md-hue-1" ng-click="checkoutDoc(currentTrunk,branch,$event)">
+                        <div class="md-toolbar-tools" >
+                            <p ng-bind="branch.doc_name"></p>
+                        </div>
+                    </md-toolbar>
+                    <md-content class="md-primary md-hue-1" ng-style="{'max-height':branch._isOpen && detail&&detail.content_list&&detail.content_list.length?(detail.content_list.length*42+'px'):0}">
+                        <md-list ng-style="{'border-width':branch._isOpen && detail&&detail.content_list&&detail.content_list.length ?'1px':0}">
+                            <md-list-item ng-repeat="anchor in branch._detail.content_list track by $index" ng-class="{'active':(anchorIndex == $index)}" ng-click="locateAnchor($index)" aria-label="{{anchor.content_title}}">
+                                <p ng-bind="anchor.content_title"></p>
+                            </md-list-item>
+                        </md-list>
+                    </md-content>
+                </div>
+            </md-content>
+        </md-sidenav>
+        <md-content ui-view ng-show="currentTrunk || legacyDocument" ng-class="{'legacy':legacyDocument}" >
+
+        </md-content>
+    </md-content>
+    <div class="app-loading" ng-if="loading">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+</div>
+<div class="categories" ng-if="!docId">
+    <div class="banner">
+        <div class="layer"></div>
+        <div class="text-center">
+            <h3 class="title"><%= __('Welcome.doccat.title') %></h3>
+            <p class="desc"><%= __('Welcome.doccat.subtitle') %></p>
+            <div class="button-row">
+                <md-button class="md-raised md-primary text fill" aria-label="data control" ng-href="{{'/welcome/debugtool'}}" target="_blank">
+                    <span>API测试工具</span>
+                </md-button>
+                <md-button class="md-raised text line" aria-label="data control" ng-href="{{'/welcome/sdktool'}}" target="_blank">
+                    <span>SDK下载</span>
+                </md-button>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="app-loading" ng-if="loading">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+        <div class="item-wrapper">
+            <div class="item" ng-repeat="root in rootTree track by $index" ng-click="checkoutDoc(root,root.cat_list_level_2[0],$event)">
+                <md-icon md-svg-icon="{{($index == 0)?'/resource/welcome/finance-34.svg':(($index == 1)?'/resource/welcome/city-03.svg':(($index == 2)?'/resource/welcome/text-07.svg':'/resource/welcome/others-18.svg'))}}"></md-icon>
+                <h5 ng-bind="root.cat_name"></h5>
+                <p ng-bind="($index == 0)?'开发者与供应商通过平台 实现数据交互':(($index == 1)?'开发者与供应商通过平台 实现数据交互':(($index == 2)?'开发者与供应商通过平台 实现数据交互':'开发者与供应商通过平台 实现数据交互'))"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<md-toolbar class="bottom-footer md-primary " md-theme="dracular">
+    <div class="md-toolbar-tools  md-toolbar-tools-bottom">
+        <ul class="md-body-1">
+            <li><h5><%= __('Copyright') %></h5></li>
+            <li class="pl-20"><a href="javascript:" ng-click="switchLang('zh-cn')" ng-class="{'active':(_lang != 'zh-en')}"><%= __('Welcome.footer.mandarin') %></a> | <a
+                        href="javascript:" ng-click="switchLang('zh-en')"
+                        ng-class="{'active':(_lang == 'zh-en')}"><%= __('Welcome.footer.english') %></a></li>
+        </ul>
+    </div>
+</md-toolbar>

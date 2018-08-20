@@ -1,0 +1,69 @@
+{
+  "name": "rop",
+  "description": "融数开放平台",
+  "main": "n",
+  "authors": [
+    "shiqifeng"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "rop"
+  ],
+  "moduleType": [],
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "2.2.4",
+    "masonry": "4.1.0",
+    "material-design-icons": "2.2.3",
+    "angular-ui-router": "ui-route#0.3.1",
+    "angular-aria": "1.5.6",
+    "Angular-Hero": "angular-hero#^0.0.7",
+    "angular": "1.5.6",
+    "counter-up": "1.0.0",
+    "bootstrap": "3.3.6",
+    "font-awesome-animation": "0.0.9",
+    "angular-material": "1.0.9",
+    "angular-messages": "1.5.6",
+    "angular-cookies": "1.5.6",
+    "holderjs": "2.9.3",
+    "angular-ui": "0.4.0",
+    "clipboard": "1.5.12",
+    "waypoints": "4.0.0",
+    "angular-route": "1.5.6",
+    "owlcarousel": "1.3.2",
+    "metisMenu": "2.5.2",
+    "nanoscroller": "0.8.7",
+    "angular-drag-and-drop-lists": "1.4.0",
+    "chart.js": "2.3.0",
+    "cta": "0.3.2",
+    "requirejs": "2.3.2",
+    "gsap": "greensock#1.19.0",
+    "Snap.svg": "snap.svg#0.4.1",
+    "ckeditor": "#full/4.6.1",
+    "oclazyload": "ocLazyLoad#1.1.0",
+    "in-view": "*",
+    "Swiper": "swiper#3.3.1",
+    "angular-animate": "1.5.6",
+    "angular-material-datetimepicker": "1.4.0",
+    "font-awesome": "4.6.3",
+    "typeahead.js": "0.11.1",
+    "modernizr": "^3.5.0",
+    "ng-file-upload": "^12.2.13",
+    "es5-shim": "^4.5.9",
+    "es6-shim": "^0.35.3",
+    "core": "core-js#*",
+    "angular-dragdrop": "^1.0.13"
+  },
+  "resolutions": {
+    "angular": "1.5.6",
+    "angular-animate": "1.5.6"
+  }
+}
